@@ -2,187 +2,235 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>iOS Dialer</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    body, html {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .dialer-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      height: 100%;
+      justify-content: space-between;
+      padding: 0;
     }
 
     .status-bar {
-      width: 100%;
-      background-color: #ffffff;
-      color: #000;
-      font-size: 14px;
-      padding: 5px 20px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      font-weight: bold;
+      font-size: 14px;
     }
 
-    .display {
-      width: 100%;
-      height: 100px;
+    .dialed-number {
+      font-size: 28px;
       text-align: center;
-      font-size: 32px;
-      padding-top: 30px;
-      border-bottom: 1px solid #ddd;
-      background-color: white;
+      margin-top: 20px;
+      font-weight: 600;
+      min-height: 40px;
     }
 
     .keypad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      padding: 30px;
+      padding: 20px;
+      justify-items: center;
     }
 
     .key {
-      background-color: #eaeaea;
-      border-radius: 50%;
       width: 80px;
       height: 80px;
+      border-radius: 50%;
+      background-color: #efefef;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      font-size: 20px;
+      font-size: 24px;
+      font-weight: bold;
       cursor: pointer;
-      user-select: none;
-      transition: background-color 0.2s;
     }
 
-    .key:hover {
-      background-color: #dcdcdc;
-    }
-
-    .subtext {
-      font-size: 10px;
+    .key small {
+      font-size: 12px;
+      font-weight: normal;
       color: gray;
     }
 
-    .call-btn {
-      background-color: #34c759;
+    .call-button {
+      grid-column: 2 / span 1;
       width: 80px;
       height: 80px;
+      background-color: #34C759;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 30px;
-      color: white;
-      margin-top: 20px;
       cursor: pointer;
     }
 
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #3498db;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-      display: none;
+    .call-button img {
+      width: 30px;
+      height: 30px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      border-top: 1px solid #ddd;
+      font-size: 12px;
+    }
+
+    .bottom-nav div {
+      color: #999;
+    }
+
+    .bottom-nav .active {
+      color: #007AFF;
+      font-weight: 600;
     }
 
     .modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0,0,0,0.5);
-      display: flex;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      display: none;
       justify-content: center;
       align-items: center;
-      display: none;
+      z-index: 100;
     }
 
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: left;
-      max-width: 300px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      white-space: pre-line;
-      font-size: 14px;
+    .custom-modal-content {
+      background: #4a4a4a;
+      color: white;
+      padding: 30px 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin: 0 5px;
+      border: none;
+    }
+
+    .dismiss {
+      background-color: white;
+      color: black;
+    }
+
+    .reply {
+      background-color: black;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <div class="status-bar">
-    <div>07:02</div>
-    <div>5G   ▲▲  ●</div>
+  <div class="dialer-container">
+    <div class="status-bar">
+      <span class="time">09:31</span>
+      <span class="battery">7%</span>
+    </div>
+
+    <div class="dialed-number" id="dialed-number"></div>
+
+    <div class="keypad">
+      <div class="key" onclick="addNumber('1')"><span>1</span></div>
+      <div class="key" onclick="addNumber('2')"><span>2</span><small>ABC</small></div>
+      <div class="key" onclick="addNumber('3')"><span>3</span><small>DEF</small></div>
+      <div class="key" onclick="addNumber('4')"><span>4</span><small>GHI</small></div>
+      <div class="key" onclick="addNumber('5')"><span>5</span><small>JKL</small></div>
+      <div class="key" onclick="addNumber('6')"><span>6</span><small>MNO</small></div>
+      <div class="key" onclick="addNumber('7')"><span>7</span><small>PQRS</small></div>
+      <div class="key" onclick="addNumber('8')"><span>8</span><small>TUV</small></div>
+      <div class="key" onclick="addNumber('9')"><span>9</span><small>WXYZ</small></div>
+      <div class="key" onclick="addNumber('*')"><span>*</span></div>
+      <div class="key" onclick="addNumber('0')"><span>0</span><small>+</small></div>
+      <div class="key" onclick="addNumber('#')"><span>#</span></div>
+
+      <div class="call-button" onclick="triggerCall()">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png"/>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div>Favourites</div>
+      <div>Recents</div>
+      <div>Contacts</div>
+      <div class="active">Keypad</div>
+      <div>Voicemail</div>
+    </div>
   </div>
-  <div class="display" id="display"></div>
 
-  <div class="keypad">
-    <div class="key" onclick="pressKey('1')">1<div class="subtext">voicemail</div></div>
-    <div class="key" onclick="pressKey('2')">2<div class="subtext">ABC</div></div>
-    <div class="key" onclick="pressKey('3')">3<div class="subtext">DEF</div></div>
-    <div class="key" onclick="pressKey('4')">4<div class="subtext">GHI</div></div>
-    <div class="key" onclick="pressKey('5')">5<div class="subtext">JKL</div></div>
-    <div class="key" onclick="pressKey('6')">6<div class="subtext">MNO</div></div>
-    <div class="key" onclick="pressKey('7')">7<div class="subtext">PQRS</div></div>
-    <div class="key" onclick="pressKey('8')">8<div class="subtext">TUV</div></div>
-    <div class="key" onclick="pressKey('9')">9<div class="subtext">WXYZ</div></div>
-    <div class="key" onclick="pressKey('*')">*</div>
-    <div class="key" onclick="pressKey('0')">0<div class="subtext">+</div></div>
-    <div class="key" onclick="pressKey('#')">#</div>
-  </div>
-
-  <div class="call-btn" onclick="makeCall()">
-    ☎
-  </div>
-
-  <div class="spinner" id="spinner"></div>
-
-  <div class="modal" id="modal">
-    <div class="modal-content" id="modal-message">
-      <!-- Message will go here -->
+  <div id="modal" class="modal">
+    <div class="custom-modal-content">
+      <p>1 Send Money<br>
+      2 Withdraw Cash<br>
+      3 Buy Airtime<br>
+      4 Loans and Savings<br>
+      5 Financial Services<br>
+      6 Lipa na M-PESA<br>
+      7 My Account<br>
+      8 Pochi la Biashara<br>
+      9 M-PESA Ratiba<br>
+      98:MORE</p>
+      <div class="modal-buttons">
+        <button onclick="closeModal()" class="dismiss">Dismiss</button>
+        <button class="reply">Reply</button>
+      </div>
     </div>
   </div>
 
   <script>
-    const display = document.getElementById('display');
-    const spinner = document.getElementById('spinner');
-    const modal = document.getElementById('modal');
-    const modalMessage = document.getElementById('modal-message');
+    let number = '';
 
-    function pressKey(key) {
-      display.textContent += key;
+    function addNumber(num) {
+      number += num;
+      document.getElementById('dialed-number').textContent = number;
     }
 
-    function makeCall() {
-      spinner.style.display = 'block';
+    function triggerCall() {
       setTimeout(() => {
-        spinner.style.display = 'none';
-        modal.style.display = 'flex';
-        modalMessage.textContent =
-`Account No: 07000070001, Current
-Balances: KES 17809.67 Available
-Balance: KES 617080.67 as at 23-04-2025
-21:09:50`;
-      }, Math.random() < 0.5 ? 1000 : 2000);
+        document.getElementById('modal').style.display = 'flex';
+      }, 2000);
     }
 
-    modal.addEventListener('click', () => {
-      modal.style.display = 'none';
-      display.textContent = '';
-    });
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
   </script>
 </body>
-</html>
+  </html>
+    
