@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dialer UI</title>
-  <!-- Include Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -14,8 +12,12 @@
       font-family: 'Roboto', sans-serif;
     }
 
-    .spacer-top {
+    .top-spacer {
       height: 40px;
+    }
+
+    .top-bar {
+      height: 20px;
     }
 
     .actions {
@@ -24,41 +26,56 @@
       margin-top: 20px;
     }
 
-    .action-item {
-      display: flex;
-      align-items: center;
+    .actions div {
       margin: 15px 0;
       font-size: 18px;
+      display: flex;
+      align-items: center;
     }
 
-    .action-item i {
-      margin-right: 10px;
-      color: #ffb6b6;
+    .actions div::before {
+      content: '';
+      display: inline-block;
       width: 20px;
-      text-align: center;
+      height: 20px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-right: 10px;
+    }
+
+    .actions div:nth-child(1)::before {
+      background-image: url('https://img.icons8.com/fluency/48/000000/add-contact-to.png');
+    }
+
+    .actions div:nth-child(2)::before {
+      background-image: url('https://img.icons8.com/fluency/48/000000/contacts.png');
+    }
+
+    .actions div:nth-child(3)::before {
+      background-image: url('https://img.icons8.com/fluency/48/000000/sms.png');
     }
 
     .dial-input-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
-      text-align: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
     }
 
     .dial-input {
+      text-align: center;
       font-size: 28px;
       color: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      width: 100%;
     }
 
     .clear-btn {
       position: absolute;
       right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
+      font-size: 24px;
       color: #ffb6b6;
-      font-size: 20px;
       cursor: pointer;
     }
 
@@ -66,7 +83,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      padding: 20px;
+      padding: 30px 20px 20px;
     }
 
     .btn {
@@ -79,6 +96,10 @@
       user-select: none;
     }
 
+    .btn:active {
+      background-color: #2a2a2a;
+    }
+
     .call-btn {
       background-color: #3ddc84;
       color: black;
@@ -87,7 +108,7 @@
       text-align: center;
       border-radius: 25px;
       width: 100px;
-      margin: 20px auto;
+      margin: 20px auto 80px auto;
       cursor: pointer;
     }
 
@@ -98,73 +119,52 @@
       color: white;
     }
 
-    .btn:active {
-      background-color: #2a2a2a;
-    }
-
-    /* Modal Styles */
-    #callModal {
-      display: none;
+    /* Modal Styling */
+    .modal {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      display: flex;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
       align-items: center;
       justify-content: center;
+      z-index: 1000;
     }
 
-    #callModal .modal-content {
-      background-color: #444;
+    .modal-content {
+      background: #222;
+      color: white;
       padding: 20px;
-      border-radius: 10px;
-      color: white;
-      text-align: center;
-      width: 90%;
+      border-radius: 12px;
+      width: 80%;
       max-width: 300px;
+      text-align: center;
     }
 
-    #callModal .modal-actions {
+    .close-modal {
       margin-top: 20px;
-      display: flex;
-      justify-content: space-around;
-    }
-
-    #callModal button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      color: #3ddc84;
+      font-weight: bold;
       cursor: pointer;
-    }
-
-    #callModal .dismiss-btn {
-      background: white;
-      color: black;
-    }
-
-    #callModal .reply-btn {
-      background: black;
-      color: white;
     }
   </style>
 </head>
 <body>
 
-  <div class="spacer-top"></div>
+  <div class="top-spacer"></div>
+  <div class="top-bar"></div>
 
   <div class="actions">
-    <div class="action-item"><i class="fas fa-user-plus"></i>Create new contact</div>
-    <div class="action-item"><i class="fas fa-user-edit"></i>Add to a contact</div>
-    <div class="action-item"><i class="fas fa-comment"></i>Send a message</div>
+    <div>Create new contact</div>
+    <div>Add to a contact</div>
+    <div>Send a message</div>
   </div>
 
   <div class="dial-input-container">
     <div class="dial-input" id="dialInput">*22222223</div>
-    <button class="clear-btn" onclick="clearInput()"><i class="fas fa-times"></i></button>
+    <div class="clear-btn" onclick="clearInput()">×</div>
   </div>
 
   <div class="dial-pad">
@@ -191,19 +191,18 @@
   </div>
 
   <!-- Modal -->
-  <div id="callModal">
+  <div class="modal" id="modal">
     <div class="modal-content">
-      <p id="modalText"></p>
-      <div class="modal-actions">
-        <button class="dismiss-btn" onclick="closeModal()">Dismiss</button>
-        <button class="reply-btn" onclick="reply()">Reply</button>
+      <div id="modalText">
+        <!-- Message will appear here -->
       </div>
+      <div class="close-modal" onclick="closeModal()">OK</div>
     </div>
   </div>
 
   <script>
     const input = document.getElementById("dialInput");
-    const modal = document.getElementById("callModal");
+    const modal = document.getElementById("modal");
     const modalText = document.getElementById("modalText");
 
     function addChar(char) {
@@ -218,9 +217,8 @@
     }
 
     function makeCall() {
-      const number = input.innerText;
       modalText.innerHTML = `
-        The Balance For ${number}:<br>
+        The Balance For 123455899:<br>
         Book Balance KES 1.80,<br>
         Available Balance KES 1.80,<br>
         E-Loan Limit KES 0.00.<br><br>
@@ -232,11 +230,7 @@
     function closeModal() {
       modal.style.display = "none";
     }
-
-    function reply() {
-      alert("Reply clicked!");
-      closeModal();
-    }
   </script>
+
 </body>
 </html>
