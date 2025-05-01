@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dialer UI</title>
+  <!-- Include Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -12,36 +14,52 @@
       font-family: 'Roboto', sans-serif;
     }
 
-    .top-bar {
-      padding: 10px;
-      text-align: right;
-      font-size: 14px;
+    .spacer-top {
+      height: 40px;
     }
 
     .actions {
       text-align: left;
       padding: 10px 20px;
+      margin-top: 20px;
     }
 
-    .actions div {
-      margin: 15px 0;
-      font-size: 18px;
+    .action-item {
       display: flex;
       align-items: center;
+      margin: 15px 0;
+      font-size: 18px;
     }
 
-    .actions div::before {
-      content: '•';
+    .action-item i {
       margin-right: 10px;
       color: #ffb6b6;
+      width: 20px;
+      text-align: center;
+    }
+
+    .dial-input-container {
+      position: relative;
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
     }
 
     .dial-input {
-      text-align: center;
       font-size: 28px;
       color: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ffb6b6;
+      font-size: 20px;
+      cursor: pointer;
     }
 
     .dial-pad {
@@ -106,7 +124,7 @@
       color: white;
       text-align: center;
       width: 90%;
-      max-width: 400px;
+      max-width: 300px;
     }
 
     #callModal .modal-actions {
@@ -136,18 +154,18 @@
 </head>
 <body>
 
-  <div class="top-bar"></div>
-</div>
-</div>
-</div>
+  <div class="spacer-top"></div>
 
   <div class="actions">
-    <div>Create new contact</div>
-    <div>Add to a contact</div>
-    <div>Send a message</div>
+    <div class="action-item"><i class="fas fa-user-plus"></i>Create new contact</div>
+    <div class="action-item"><i class="fas fa-user-edit"></i>Add to a contact</div>
+    <div class="action-item"><i class="fas fa-comment"></i>Send a message</div>
   </div>
 
-  <div class="dial-input" id="dialInput">*667#</div>
+  <div class="dial-input-container">
+    <div class="dial-input" id="dialInput">*22222223</div>
+    <button class="clear-btn" onclick="clearInput()"><i class="fas fa-times"></i></button>
+  </div>
 
   <div class="dial-pad">
     <div class="btn" onclick="addChar('1')">1</div>
@@ -167,12 +185,9 @@
   <div class="call-btn" onclick="makeCall()">Call</div>
 
   <div class="bottom-bar">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div>◀</div>
+    <div>●</div>
+    <div>▢</div>
   </div>
 
   <!-- Modal -->
@@ -192,19 +207,23 @@
     const modalText = document.getElementById("modalText");
 
     function addChar(char) {
-      if (input.innerText === "*667#") {
+      if (input.innerText === "*22222223") {
         input.innerText = "";
       }
       input.innerText += char;
+    }
+
+    function clearInput() {
+      input.innerText = "";
     }
 
     function makeCall() {
       const number = input.innerText;
       modalText.innerHTML = `
         The Balance For ${number}:<br>
-        Book Balance KES 1124046.80,<br>
-        Available Balance KES 1124046.80,<br>
-        E-Loan Limit KES 20000.00.<br><br>
+        Book Balance KES 1.80,<br>
+        Available Balance KES 1.80,<br>
+        E-Loan Limit KES 0.00.<br><br>
         Do you want another transaction?<br>1. Yes<br>2. No
       `;
       modal.style.display = "flex";
