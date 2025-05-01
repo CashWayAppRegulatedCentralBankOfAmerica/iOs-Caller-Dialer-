@@ -1,214 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dialer UI</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #121212;
-      color: #ffb6b6;
-      font-family: 'Roboto', sans-serif;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dialer UI</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #ffb6b6;
+      font-family: 'Roboto', sans-serif;
+    }
 
-    .top-bar {
-      padding: 10px;
-      text-align: right;
-      font-size: 14px;
-      height: 20px; /* Keeps the space */
-    }
+    .top-bar {
+      padding: 10px;
+      text-align: right;
+      font-size: 14px;
+    }
 
-    .actions {
-      text-align: left;
-      padding: 10px 20px;
-    }
+    .actions {
+      text-align: left;
+      padding: 10px 20px;
+    }
 
-    .actions div {
-      margin: 15px 0;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-    }
+    .actions div {
+      margin: 15px 0;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+    }
 
-    .actions div::before {
-      content: '•';
-      margin-right: 10px;
-      color: #ffb6b6;
-    }
+    .actions div::before {
+      content: '•';
+      margin-right: 10px;
+      color: #ffb6b6;
+    }
 
-    .dial-input {
-      text-align: center;
-      font-size: 28px;
-      color: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-    }
+    .dial-input {
+      text-align: center;
+      font-size: 28px;
+      color: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
 
-    .dial-pad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 20px;
-    }
+    .dial-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
 
-    .btn {
-      background: #1a1a1a;
-      border-radius: 25px;
-      padding: 20px 0;
-      font-size: 22px;
-      color: white;
-      text-align: center;
-      user-select: none;
-    }
+    .btn {
+      background: #1a1a1a;
+      border-radius: 25px;
+      padding: 20px 0;
+      font-size: 22px;
+      color: white;
+      text-align: center;
+      user-select: none;
+    }
 
-    .call-btn {
-      background-color: #3ddc84;
-      color: black;
-      font-weight: bold;
-      padding: 15px;
-      text-align: center;
-      border-radius: 25px;
-      width: 100px;
-      margin: 20px auto;
-    }
+    .call-btn {
+      background-color: #3ddc84;
+      color: black;
+      font-weight: bold;
+      padding: 15px;
+      text-align: center;
+      border-radius: 25px;
+      width: 100px;
+      margin: 20px auto;
+    }
 
-    .bottom-bar {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-      color: white;
-    }
+    .bottom-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      color: white;
+    }
 
-    .btn:active {
-      background-color: #2a2a2a;
-    }
-
-    .ussd-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #555;
-      color: white;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    .ussd-modal p {
-      font-size: 16px;
-      margin-bottom: 40px;
-    }
-
-    .modal-buttons {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 300px;
-    }
-
-    .modal-buttons button {
-      flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .modal-buttons button:first-child {
-      background: white;
-      color: black;
-      margin-right: 5px;
-    }
-
-    .modal-buttons button:last-child {
-      background: black;
-      color: white;
-      margin-left: 5px;
-    }
-  </style>
+    .btn:active {
+      background-color: #2a2a2a;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="top-bar"></div>
+  <div class="top-bar">10:41 am | Battery: 2%</div>
 
-  <div class="actions">
-    <div>Create new contact</div>
-    <div>Add to a contact</div>
-    <div>Send a message</div>
-  </div>
+  <div class="actions">
+    <div>Create new contact</div>
+    <div>Add to a contact</div>
+    <div>Send a message</div>
+  </div>
 
-  <div class="dial-input" id="dialInput">*22222223</div>
+  <div class="dial-input" id="dialInput">*22222223</div>
 
-  <div class="dial-pad">
-    <div class="btn" onclick="addChar('1')">1</div>
-    <div class="btn" onclick="addChar('2')">2<br><small>ABC</small></div>
-    <div class="btn" onclick="addChar('3')">3<br><small>DEF</small></div>
-    <div class="btn" onclick="addChar('4')">4<br><small>GHI</small></div>
-    <div class="btn" onclick="addChar('5')">5<br><small>JKL</small></div>
-    <div class="btn" onclick="addChar('6')">6<br><small>MNO</small></div>
-    <div class="btn" onclick="addChar('7')">7<br><small>PQRS</small></div>
-    <div class="btn" onclick="addChar('8')">8<br><small>TUV</small></div>
-    <div class="btn" onclick="addChar('9')">9<br><small>WXYZ</small></div>
-    <div class="btn" onclick="addChar('*')">*</div>
-    <div class="btn" onclick="addChar('0')">0<br><small>+</small></div>
-    <div class="btn" onclick="addChar('#')">#</div>
-  </div>
+  <div class="dial-pad">
+    <div class="btn" onclick="addChar('1')">1</div>
+    <div class="btn" onclick="addChar('2')">2<br><small>ABC</small></div>
+    <div class="btn" onclick="addChar('3')">3<br><small>DEF</small></div>
+    <div class="btn" onclick="addChar('4')">4<br><small>GHI</small></div>
+    <div class="btn" onclick="addChar('5')">5<br><small>JKL</small></div>
+    <div class="btn" onclick="addChar('6')">6<br><small>MNO</small></div>
+    <div class="btn" onclick="addChar('7')">7<br><small>PQRS</small></div>
+    <div class="btn" onclick="addChar('8')">8<br><small>TUV</small></div>
+    <div class="btn" onclick="addChar('9')">9<br><small>WXYZ</small></div>
+    <div class="btn" onclick="addChar('*')">*</div>
+    <div class="btn" onclick="addChar('0')">0<br><small>+</small></div>
+    <div class="btn" onclick="addChar('#')">#</div>
+  </div>
 
-  <div class="call-btn" onclick="makeCall()">Call</div>
+  <div class="call-btn" onclick="makeCall()">Call</div>
 
-  <div class="bottom-bar">
-    <div>◀</div>
-    <div>●</div>
-    <div>▢</div>
-  </div>
+  <div class="bottom-bar">
+    <div>◀</div>
+    <div>●</div>
+    <div>▢</div>
+  </div>
 
-  <!-- Modal -->
-  <div class="ussd-modal" id="ussdModal">
-    <p>
-      The Balance For 01101*****7001: Book Balance KES 1.80,<br />
-      Available Balance KES 1.80, E-Loan Limit KES 0.00.<br /><br />
-      Do you want another transaction?<br />
-      1. Yes<br />
-      2. No
-    </p>
-    <div class="modal-buttons">
-      <button onclick="closeUssd()">Dismiss</button>
-      <button onclick="replyUssd()">Reply</button>
-    </div>
-  </div>
+  <script>
+    const input = document.getElementById("dialInput");
 
-  <script>
-    const input = document.getElementById("dialInput");
+    function addChar(char) {
+      if (input.innerText === "*22222223") {
+        input.innerText = "";
+      }
+      input.innerText += char;
+    }
 
-    function addChar(char) {
-      if (input.innerText === "*22222223") {
-        input.innerText = "";
-      }
-      input.innerText += char;
-    }
-
-    function makeCall() {
-      setTimeout(() => {
-        document.getElementById("ussdModal").style.display = "flex";
-      }, 1000);
-    }
-
-    function closeUssd() {
-      document.getElementById("ussdModal").style.display = "none";
-    }
-
-    function replyUssd() {
-      alert("Reply functionality can be added here.");
-    }
-  </script>
+    function makeCall() {
+      alert("Calling " + input.innerText);
+    }
+  </script>
 </body>
-</html>
+      </html>
