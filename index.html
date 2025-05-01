@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dialer UI</title>
+  <!-- Include Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -12,12 +14,8 @@
       font-family: 'Roboto', sans-serif;
     }
 
-    .top-spacer {
+    .spacer-top {
       height: 40px;
-    }
-
-    .top-bar {
-      height: 20px;
     }
 
     .actions {
@@ -26,56 +24,41 @@
       margin-top: 20px;
     }
 
-    .actions div {
-      margin: 15px 0;
-      font-size: 18px;
+    .action-item {
       display: flex;
       align-items: center;
+      margin: 15px 0;
+      font-size: 18px;
     }
 
-    .actions div::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      background-size: contain;
-      background-repeat: no-repeat;
+    .action-item i {
       margin-right: 10px;
-    }
-
-    .actions div:nth-child(1)::before {
-      background-image: url('https://img.icons8.com/fluency/48/000000/add-contact-to.png');
-    }
-
-    .actions div:nth-child(2)::before {
-      background-image: url('https://img.icons8.com/fluency/48/000000/contacts.png');
-    }
-
-    .actions div:nth-child(3)::before {
-      background-image: url('https://img.icons8.com/fluency/48/000000/sms.png');
+      color: #ffb6b6;
+      width: 20px;
+      text-align: center;
     }
 
     .dial-input-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       position: relative;
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
     }
 
     .dial-input {
-      text-align: center;
       font-size: 28px;
       color: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-      width: 100%;
     }
 
     .clear-btn {
       position: absolute;
       right: 20px;
-      font-size: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
       color: #ffb6b6;
+      font-size: 20px;
       cursor: pointer;
     }
 
@@ -83,7 +66,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      padding: 30px 20px 20px;
+      padding: 20px;
     }
 
     .btn {
@@ -96,21 +79,18 @@
       user-select: none;
     }
 
-    .btn:active {
-      background-color: #2a2a2a;
-    }
-
     .call-btn {
-      background-color: #3ddc84;
-      color: black;
-      font-weight: bold;
-      padding: 15px;
-      text-align: center;
-      border-radius: 25px;
-      width: 100px;
-      margin: 20px auto 80px auto;
-      cursor: pointer;
-    }
+  background-color: #3ddc84;
+  color: black;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  border-radius: 25px;
+  width: 100px;
+  margin: 20px auto 60px auto; /* Increased bottom margin */
+  cursor: pointer;
+}
+
 
     .bottom-bar {
       display: flex;
@@ -119,52 +99,73 @@
       color: white;
     }
 
-    /* Modal Styling */
-    .modal {
+    .btn:active {
+      background-color: #2a2a2a;
+    }
+
+    /* Modal Styles */
+    #callModal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
     }
 
-    .modal-content {
-      background: #222;
-      color: white;
+    #callModal .modal-content {
+      background-color: #444;
       padding: 20px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 300px;
+      border-radius: 10px;
+      color: white;
       text-align: center;
+      width: 90%;
+      max-width: 300px;
     }
 
-    .close-modal {
+    #callModal .modal-actions {
       margin-top: 20px;
-      color: #3ddc84;
-      font-weight: bold;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    #callModal button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
+    }
+
+    #callModal .dismiss-btn {
+      background: white;
+      color: black;
+    }
+
+    #callModal .reply-btn {
+      background: black;
+      color: white;
     }
   </style>
 </head>
 <body>
 
-  <div class="top-spacer"></div>
-  <div class="top-bar"></div>
+  <div class="spacer-top"></div>
 
   <div class="actions">
-    <div>Create new contact</div>
-    <div>Add to a contact</div>
-    <div>Send a message</div>
+    <div class="action-item"><i class="fas fa-user-plus"></i>Create new contact</div>
+    <div class="action-item"><i class="fas fa-user-edit"></i>Add to a contact</div>
+    <div class="action-item"><i class="fas fa-comment"></i>Send a message</div>
   </div>
 
   <div class="dial-input-container">
     <div class="dial-input" id="dialInput">*22222223</div>
-    <div class="clear-btn" onclick="clearInput()">×</div>
+    <button class="clear-btn" onclick="clearInput()"><i class="fas fa-times"></i></button>
   </div>
 
   <div class="dial-pad">
@@ -191,18 +192,19 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal" id="modal">
+  <div id="callModal">
     <div class="modal-content">
-      <div id="modalText">
-        <!-- Message will appear here -->
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button class="dismiss-btn" onclick="closeModal()">Dismiss</button>
+        <button class="reply-btn" onclick="reply()">Reply</button>
       </div>
-      <div class="close-modal" onclick="closeModal()">OK</div>
     </div>
   </div>
 
   <script>
     const input = document.getElementById("dialInput");
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById("callModal");
     const modalText = document.getElementById("modalText");
 
     function addChar(char) {
@@ -217,20 +219,24 @@
     }
 
     function makeCall() {
-      modalText.innerHTML = `
-        The Balance For 123455899:<br>
-        Book Balance KES 1.80,<br>
-        Available Balance KES 1.80,<br>
-        E-Loan Limit KES 0.00.<br><br>
-        Do you want another transaction?<br>1. Yes<br>2. No
-      `;
-      modal.style.display = "flex";
-    }
+  modalText.innerHTML = `
+    The Balance For 123455899:<br>
+    Book Balance KES 1.80,<br>
+    Available Balance KES 1.80,<br>
+    E-Loan Limit KES 0.00.<br><br>
+    Do you want another transaction?<br>1. Yes<br>2. No
+  `;
+  modal.style.display = "flex";
+}
 
     function closeModal() {
       modal.style.display = "none";
     }
-  </script>
 
+    function reply() {
+      alert("Reply clicked!");
+      closeModal();
+    }
+  </script>
 </body>
-</html>
+  </html>
