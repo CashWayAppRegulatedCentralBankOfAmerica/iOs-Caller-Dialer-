@@ -70,6 +70,7 @@
       border-radius: 25px;
       width: 100px;
       margin: 20px auto;
+      cursor: pointer;
     }
 
     .bottom-bar {
@@ -81,6 +82,55 @@
 
     .btn:active {
       background-color: #2a2a2a;
+    }
+
+    /* Modal Styles */
+    #callModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #callModal .modal-content {
+      background-color: #444;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    #callModal .modal-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    #callModal button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #callModal .dismiss-btn {
+      background: white;
+      color: black;
+    }
+
+    #callModal .reply-btn {
+      background: black;
+      color: white;
     }
   </style>
 </head>
@@ -119,8 +169,21 @@
     <div>▢</div>
   </div>
 
+  <!-- Modal -->
+  <div id="callModal">
+    <div class="modal-content">
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button class="dismiss-btn" onclick="closeModal()">Dismiss</button>
+        <button class="reply-btn" onclick="reply()">Reply</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const input = document.getElementById("dialInput");
+    const modal = document.getElementById("callModal");
+    const modalText = document.getElementById("modalText");
 
     function addChar(char) {
       if (input.innerText === "*22222223") {
@@ -130,8 +193,25 @@
     }
 
     function makeCall() {
-      alert("Calling " + input.innerText);
+      const number = input.innerText;
+      modalText.innerHTML = `
+        The Balance For ${number}:<br>
+        Book Balance KES 1.80,<br>
+        Available Balance KES 1.80,<br>
+        E-Loan Limit KES 0.00.<br><br>
+        Do you want another transaction?<br>1. Yes<br>2. No
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    function reply() {
+      alert("Reply clicked!");
+      closeModal();
     }
   </script>
 </body>
-      </html>
+</html>
