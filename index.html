@@ -25,7 +25,6 @@
       flex-direction: column;
       height: 100%;
       justify-content: space-between;
-      padding: 0;
     }
 
     .status-bar {
@@ -194,43 +193,84 @@
     </div>
   </div>
 
+  <!-- First Modal -->
   <div id="modal" class="modal">
     <div class="custom-modal-content">
       <p>1 Send Money<br>
-      2 Withdraw Cash<br>
-      3 Buy Airtime<br>
-      4 Loans and Savings<br>
-      5 Financial Services<br>
-      6 Lipa na M-PESA<br>
-      7 My Account<br>
-      8 Pochi la Biashara<br>
-      9 M-PESA Ratiba<br>
-      98:MORE</p>
+        2 Withdraw Cash<br>
+        3 Buy Airtime<br>
+        4 Loans and Savings<br>
+        5 Financial Services<br>
+        6 Lipa na M-PESA<br>
+        7 My Account<br>
+        8 Pochi la Biashara<br>
+        9 M-PESA Ratiba<br>
+        98:MORE</p>
       <div class="modal-buttons">
         <button onclick="closeModal()" class="dismiss">Dismiss</button>
-        <button class="reply">Reply</button>
+        <button onclick="handleReply()" class="reply">Reply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Modal -->
+  <div id="modal-financial" class="modal">
+    <div class="custom-modal-content">
+      <p>
+        Financial Services<br>
+        1 ZIIDI<br>
+        2 M-Banking<br>
+        3 SACCOs<br>
+        4 Insurance<br>
+        5 Wealth Management<br>
+        6 Unclaimed Funds<br>
+        7 MALI<br>
+        00 Home
+      </p>
+      <div class="modal-buttons">
+        <button onclick="closeModal('modal-financial')" class="dismiss">Dismiss</button>
+        <button onclick="handleReply('modal-financial')" class="reply">Reply</button>
       </div>
     </div>
   </div>
 
   <script>
     let number = '';
+    let replyMode = false;
 
     function addNumber(num) {
       number += num;
       document.getElementById('dialed-number').textContent = number;
+
+      if (replyMode && number === '5') {
+        replyMode = false;
+        setTimeout(() => {
+          document.getElementById('modal-financial').style.display = 'flex';
+          number = '';
+          document.getElementById('dialed-number').textContent = '';
+        }, 1000);
+      }
     }
 
     function triggerCall() {
       setTimeout(() => {
         document.getElementById('modal').style.display = 'flex';
+        replyMode = false;
+        number = '';
+        document.getElementById('dialed-number').textContent = '';
       }, 2000);
     }
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
+    function closeModal(modalId = 'modal') {
+      document.getElementById(modalId).style.display = 'none';
+      number = '';
+      document.getElementById('dialed-number').textContent = '';
+    }
+
+    function handleReply(modalId = 'modal') {
+      replyMode = true;
+      closeModal(modalId);
     }
   </script>
 </body>
-  </html>
-    
+  </html
