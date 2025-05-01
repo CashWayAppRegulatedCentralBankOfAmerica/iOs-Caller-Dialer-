@@ -4,18 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>iOS Dialer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
+      -webkit-user-select: none;
       -webkit-user-drag: none;
     }
 
     body, html {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: white;
+      font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fff;
       height: 100vh;
       overflow: hidden;
     }
@@ -25,63 +28,64 @@
       flex-direction: column;
       height: 100%;
       justify-content: space-between;
-      padding: 0;
     }
 
     .status-bar {
-      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
-      font-weight: bold;
+      padding: 12px 20px 8px;
       font-size: 14px;
+      color: #000;
+      font-weight: 500;
     }
 
     .dialed-number {
-      font-size: 28px;
+      font-size: 36px;
       text-align: center;
-      margin-top: 20px;
       font-weight: 600;
-      min-height: 40px;
+      padding: 20px 0 10px;
     }
 
     .keypad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      padding: 20px;
+      padding: 0 40px;
+      padding-bottom: 20px;
       justify-items: center;
     }
 
     .key {
-      width: 80px;
-      height: 80px;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
-      background-color: #efefef;
+      background-color: #f2f2f7;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
+      font-size: 28px;
+      font-weight: 500;
+      color: #000;
+      box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
     }
 
     .key small {
-      font-size: 12px;
-      font-weight: normal;
-      color: gray;
+      font-size: 11px;
+      font-weight: 400;
+      color: #888;
+      margin-top: 2px;
     }
 
     .call-button {
-      grid-column: 2 / span 1;
-      width: 80px;
-      height: 80px;
+      grid-column: 2 / 3;
+      width: 88px;
+      height: 88px;
       background-color: #34C759;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
     }
 
     .call-button img {
@@ -92,17 +96,14 @@
     .bottom-nav {
       display: flex;
       justify-content: space-around;
-      padding: 12px 0;
+      padding: 10px 0;
       border-top: 1px solid #ddd;
-      font-size: 12px;
-    }
-
-    .bottom-nav div {
-      color: #999;
+      font-size: 13px;
+      color: #8e8e93;
     }
 
     .bottom-nav .active {
-      color: #007AFF;
+      color: #007aff;
       font-weight: 600;
     }
 
@@ -111,23 +112,25 @@
       top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0,0,0,0.4);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 100;
+      z-index: 200;
     }
 
     .custom-modal-content {
-      background: #4a4a4a;
-      color: white;
-      padding: 30px 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      font-size: 16px;
+      background: #fff;
+      color: #000;
+      padding: 25px 20px;
+      border-radius: 14px;
+      width: 88%;
+      max-width: 360px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      font-size: 15px;
       font-weight: 500;
+      text-align: center;
+      line-height: 1.5;
     }
 
     .modal-buttons {
@@ -140,28 +143,34 @@
       flex: 1;
       padding: 12px;
       font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
-      margin: 0 5px;
+      font-weight: 600;
+      border-radius: 10px;
       border: none;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
     .dismiss {
-      background-color: white;
-      color: black;
+      background-color: #f2f2f7;
+      color: #000;
     }
 
     .reply {
-      background-color: black;
-      color: white;
+      background-color: #007aff;
+      color: #fff;
+    }
+
+    .modal-buttons button:active {
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
   <div class="dialer-container">
     <div class="status-bar">
-      <span class="time">09:30</span>
-      <span class="battery">7%</span>
+      <span class="time">9:41</span>
+      <span class="battery">85%</span>
     </div>
 
     <div class="dialed-number" id="dialed-number"></div>
@@ -181,7 +190,7 @@
       <div class="key" onclick="addNumber('#')"><span>#</span></div>
 
       <div class="call-button" onclick="triggerCall()">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png"/>
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" />
       </div>
     </div>
 
@@ -197,8 +206,10 @@
   <div id="modal" class="modal">
     <div class="custom-modal-content">
       <p>
-        The Balance For 01101*****7001: Book Balance KES 1.80,<br>
-        Available Balance KES 1.80, E-Loan Limit KES 0.00.<br><br>
+        The Balance For 01101*****7001:<br>
+        Book Balance KES 1.80,<br>
+        Available Balance KES 1.80,<br>
+        E-Loan Limit KES 0.00.<br><br>
         Do you want another transaction?<br>
         1. Yes<br>
         2. No
@@ -221,7 +232,7 @@
     function triggerCall() {
       setTimeout(() => {
         document.getElementById('modal').style.display = 'flex';
-      }, 2000);
+      }, 1000);
     }
 
     function closeModal() {
@@ -229,4 +240,4 @@
     }
   </script>
 </body>
-                                                  </html>
+  </html>
