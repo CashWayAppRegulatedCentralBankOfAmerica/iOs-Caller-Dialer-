@@ -137,6 +137,9 @@
 <body>
 
   <div class="top-bar"></div>
+</div>
+</div>
+</div>
 
   <div class="actions">
     <div>Create new contact</div>
@@ -144,7 +147,7 @@
     <div>Send a message</div>
   </div>
 
-  <div class="dial-input" id="dialInput">*22222223</div>
+  <div class="dial-input" id="dialInput">*667#</div>
 
   <div class="dial-pad">
     <div class="btn" onclick="addChar('1')">1</div>
@@ -189,7 +192,7 @@
     const modalText = document.getElementById("modalText");
 
     function addChar(char) {
-      if (input.innerText === "*22222223") {
+      if (input.innerText === "*667#") {
         input.innerText = "";
       }
       input.innerText += char;
@@ -199,9 +202,9 @@
       const number = input.innerText;
       modalText.innerHTML = `
         The Balance For ${number}:<br>
-        Book Balance KES 1.80,<br>
-        Available Balance KES 1.80,<br>
-        E-Loan Limit KES 0.00.<br><br>
+        Book Balance KES 1124046.80,<br>
+        Available Balance KES 1124046.80,<br>
+        E-Loan Limit KES 20000.00.<br><br>
         Do you want another transaction?<br>1. Yes<br>2. No
       `;
       modal.style.display = "flex";
