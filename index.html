@@ -154,6 +154,16 @@
       background-color: black;
       color: white;
     }
+
+    .reply-input {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      width: 80%;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -210,6 +220,8 @@
         <button onclick="closeModal()" class="dismiss">Dismiss</button>
         <button onclick="handleReply()" class="reply">Reply</button>
       </div>
+      <!-- Input for reply -->
+      <input type="text" id="reply-input" class="reply-input" placeholder="Enter reply number" oninput="updateReplyNumber()">
     </div>
   </div>
 
@@ -239,23 +251,15 @@
     let replyMode = false;
 
     function addNumber(num) {
-      number += num;
-      document.getElementById('dialed-number').textContent = number;
-
-      if (replyMode && number === '5') {
-        replyMode = false;
-        setTimeout(() => {
-          document.getElementById('modal-financial').style.display = 'flex';
-          number = '';
-          document.getElementById('dialed-number').textContent = '';
-        }, 1000);
+      if (!replyMode) {
+        number += num;
+        document.getElementById('dialed-number').textContent = number;
       }
     }
 
     function triggerCall() {
       setTimeout(() => {
         document.getElementById('modal').style.display = 'flex';
-        replyMode = false;
         number = '';
         document.getElementById('dialed-number').textContent = '';
       }, 2000);
@@ -265,12 +269,34 @@
       document.getElementById(modalId).style.display = 'none';
       number = '';
       document.getElementById('dialed-number').textContent = '';
+      document.getElementById('reply-input').style.display = 'none'; // Hide reply input after modal is closed
     }
 
-    function handleReply(modalId = 'modal') {
-      replyMode = true;
-      closeModal(modalId);
+    function handleReply() {
+      const replyInput = document.getElementById('reply-input');
+      
+      if (!replyMode) {
+        replyMode = true;
+        replyInput.style.display = 'block'; // Show input to enter the number to reply to
+        document.getElementById('reply-input').focus();
+        return;
+      }
+      
+      // If a number is entered, show the second modal (Financial Services)
+      const replyNumber = replyInput.value.trim();
+      if (replyNumber) {
+        setTimeout(() => {
+          document.getElementById('modal-financial').style.display = 'flex';
+          replyMode = false;  // Reset reply mode
+          replyInput.value = ''; // Reset input field
+          document.getElementById('reply-input').style.display = 'none'; // Hide input after reply
+        }, 100);
+      }
+    }
+    
+    function updateReplyNumber() {
+      // Optional: Update the number as the user types it in the input field
     }
   </script>
 </body>
-  </html
+  </html>
