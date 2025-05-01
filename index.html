@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dialer App</title>
+  <title>Android Dialer</title>
   <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -11,10 +11,12 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'SF Pro Text', sans-serif;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
     }
 
     body {
-      background-color: #0e0e0e;
+      background-color: #000;
       color: #fff;
       height: 100vh;
       display: flex;
@@ -25,15 +27,15 @@
     .dialed-number {
       text-align: center;
       padding: 20px;
-      font-size: 34px;
-      color: white;
+      font-size: 36px;
       font-weight: 600;
+      color: #fff;
     }
 
     .keypad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 20px;
       padding: 0 40px 30px;
       justify-items: center;
     }
@@ -43,17 +45,20 @@
       height: 80px;
       border-radius: 50%;
       background-color: #1a1a1a;
-      color: white;
-      font-size: 26px;
+      box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.1);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      font-size: 28px;
+      font-weight: 500;
+      color: #fff;
     }
 
     .key small {
       font-size: 11px;
-      color: #888;
+      color: #999;
+      margin-top: 2px;
     }
 
     .call-button {
@@ -68,8 +73,23 @@
     }
 
     .call-button img {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      font-size: 13px;
+      color: #aaa;
+      background-color: #000;
+      border-top: 1px solid #222;
+    }
+
+    .bottom-nav .active {
+      color: #fff;
+      font-weight: 600;
     }
 
     .modal {
@@ -78,7 +98,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.8);
       display: none;
       justify-content: center;
       align-items: center;
@@ -86,15 +106,16 @@
     }
 
     .custom-modal-content {
-      background-color: #1f1f1f;
+      background-color: #121212;
       color: #ffb6b6;
-      padding: 20px;
+      padding: 25px 20px;
       border-radius: 16px;
       width: 85%;
       max-width: 360px;
       text-align: center;
-      font-size: 15px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      font-size: 16px;
+      line-height: 1.6;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
     }
 
     .modal-buttons {
@@ -105,18 +126,18 @@
 
     .modal-buttons button {
       flex: 1;
-      margin: 0 8px;
+      margin: 0 6px;
       padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
       font-size: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: 0.3s;
     }
 
     .dismiss {
-      background-color: #333;
+      background-color: #2c2c2e;
       color: #fff;
     }
 
@@ -146,25 +167,32 @@
     <div class="key" onclick="addNumber('*')">*</div>
     <div class="key" onclick="addNumber('0')">0<small>+</small></div>
     <div class="key" onclick="addNumber('#')">#</div>
-
     <div class="call-button" onclick="triggerCall()">
       <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" />
     </div>
   </div>
 
-  <div class="modal" id="modal">
+  <div class="bottom-nav">
+    <div>Favourites</div>
+    <div>Recents</div>
+    <div>Contacts</div>
+    <div class="active">Keypad</div>
+    <div>Voicemail</div>
+  </div>
+
+  <div id="modal" class="modal">
     <div class="custom-modal-content">
       <p>
-        The Balance For 01101*****7001:<br />
-        Book Balance KES 1.80,<br />
-        Available Balance KES 1.80,<br />
-        E-Loan Limit KES 0.00.<br /><br />
-        Do you want another transaction?<br />
-        1. Yes<br />
+        The Balance For 01101*****7001:<br>
+        Book Balance KES 1.80,<br>
+        Available Balance KES 1.80,<br>
+        E-Loan Limit KES 0.00.<br><br>
+        Do you want another transaction?<br>
+        1. Yes<br>
         2. No
       </p>
       <div class="modal-buttons">
-        <button class="dismiss" onclick="closeModal()">Dismiss</button>
+        <button onclick="closeModal()" class="dismiss">Dismiss</button>
         <button class="reply">Reply</button>
       </div>
     </div>
