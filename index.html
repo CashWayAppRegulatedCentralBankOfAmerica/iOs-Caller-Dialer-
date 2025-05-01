@@ -25,6 +25,7 @@
       flex-direction: column;
       height: 100%;
       justify-content: space-between;
+      padding: 0;
     }
 
     .status-bar {
@@ -154,22 +155,12 @@
       background-color: black;
       color: white;
     }
-
-    .reply-input {
-      display: none;
-      margin-top: 20px;
-      padding: 10px;
-      width: 80%;
-      font-size: 18px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
   </style>
 </head>
 <body>
   <div class="dialer-container">
     <div class="status-bar">
-      <span class="time">09:31</span>
+      <span class="time">09:30</span>
       <span class="battery">7%</span>
     </div>
 
@@ -203,100 +194,39 @@
     </div>
   </div>
 
-  <!-- First Modal -->
   <div id="modal" class="modal">
     <div class="custom-modal-content">
-      <p>1 Send Money<br>
-        2 Withdraw Cash<br>
-        3 Buy Airtime<br>
-        4 Loans and Savings<br>
-        5 Financial Services<br>
-        6 Lipa na M-PESA<br>
-        7 My Account<br>
-        8 Pochi la Biashara<br>
-        9 M-PESA Ratiba<br>
-        98:MORE</p>
-      <div class="modal-buttons">
-        <button onclick="closeModal()" class="dismiss">Dismiss</button>
-        <button onclick="handleReply()" class="reply">Reply</button>
-      </div>
-      <!-- Input for reply -->
-      <input type="text" id="reply-input" class="reply-input" placeholder="Enter reply number" oninput="updateReplyNumber()">
-    </div>
-  </div>
-
-  <!-- Second Modal -->
-  <div id="modal-financial" class="modal">
-    <div class="custom-modal-content">
       <p>
-        Financial Services<br>
-        1 ZIIDI<br>
-        2 M-Banking<br>
-        3 SACCOs<br>
-        4 Insurance<br>
-        5 Wealth Management<br>
-        6 Unclaimed Funds<br>
-        7 MALI<br>
-        00 Home
+        The Balance For 01101*****7001: Book Balance KES 1.80,<br>
+        Available Balance KES 1.80, E-Loan Limit KES 0.00.<br><br>
+        Do you want another transaction?<br>
+        1. Yes<br>
+        2. No
       </p>
       <div class="modal-buttons">
-        <button onclick="closeModal('modal-financial')" class="dismiss">Dismiss</button>
-        <button onclick="handleReply('modal-financial')" class="reply">Reply</button>
+        <button onclick="closeModal()" class="dismiss">Dismiss</button>
+        <button class="reply">Reply</button>
       </div>
     </div>
   </div>
 
   <script>
     let number = '';
-    let replyMode = false;
 
     function addNumber(num) {
-      if (!replyMode) {
-        number += num;
-        document.getElementById('dialed-number').textContent = number;
-      }
+      number += num;
+      document.getElementById('dialed-number').textContent = number;
     }
 
     function triggerCall() {
       setTimeout(() => {
         document.getElementById('modal').style.display = 'flex';
-        number = '';
-        document.getElementById('dialed-number').textContent = '';
       }, 2000);
     }
 
-    function closeModal(modalId = 'modal') {
-      document.getElementById(modalId).style.display = 'none';
-      number = '';
-      document.getElementById('dialed-number').textContent = '';
-      document.getElementById('reply-input').style.display = 'none'; // Hide reply input after modal is closed
-    }
-
-    function handleReply() {
-      const replyInput = document.getElementById('reply-input');
-      
-      if (!replyMode) {
-        replyMode = true;
-        replyInput.style.display = 'block'; // Show input to enter the number to reply to
-        document.getElementById('reply-input').focus();
-        return;
-      }
-      
-      // If a number is entered, show the second modal (Financial Services)
-      const replyNumber = replyInput.value.trim();
-      if (replyNumber) {
-        setTimeout(() => {
-          document.getElementById('modal-financial').style.display = 'flex';
-          replyMode = false;  // Reset reply mode
-          replyInput.value = ''; // Reset input field
-          document.getElementById('reply-input').style.display = 'none'; // Hide input after reply
-        }, 100);
-      }
-    }
-    
-    function updateReplyNumber() {
-      // Optional: Update the number as the user types it in the input field
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
     }
   </script>
 </body>
-  </html>
+                                                  </html>
