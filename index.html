@@ -3,111 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Clone</title>
+  <title>WorkHub - Account Overview</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
-<body class="bg-[#133221] text-white font-sans">
-  <div class="p-4">
-    <!-- Top Bar -->
-    <div class="flex justify-between items-center text-xs text-white mb-4">
-      <span>9:24 am</span>
-      <div class="flex gap-2">
-        <i class="fas fa-signal"></i>
-        <span>4G</span>
-        <i class="fas fa-battery-three-quarters"></i>
-        <span>32%</span>
-      </div>
-    </div>
+<body class="bg-gray-100 font-sans">
+  <!-- Top Bar -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-gray-800">WorkHub Account</h1>
+    <div class="text-sm text-gray-600">Welcome, John Doe</div>
+  </header>
 
-    <!-- Profile & Balance Card -->
-    <div class="mb-4">
-      <div class="flex items-center gap-4">
-        <div class="bg-white text-green-800 font-bold w-10 h-10 rounded-full flex items-center justify-center">JA</div>
-        <div>
-          <p class="text-sm font-semibold">NOVA PRIME</p>
-          <p class="text-sm">JACOB AMAITSA <span class="text-yellow-400">👋</span></p>
-        </div>
-        <div class="ml-auto flex gap-3">
-          <div class="w-8 h-8 bg-[#1d3e2e] rounded-full flex items-center justify-center">
-            <i class="fas fa-qrcode text-pink-400"></i>
-          </div>
-          <div class="w-8 h-8 bg-[#1d3e2e] rounded-full flex items-center justify-center">
-            <i class="fas fa-clock text-pink-400"></i>
-          </div>
-        </div>
+  <!-- Main Section -->
+  <main class="max-w-5xl mx-auto mt-8 p-4">
+    <!-- Balance Overview -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white p-6 rounded-xl shadow text-center">
+        <p class="text-gray-500">Total Balance</p>
+        <h2 class="text-2xl font-bold text-green-600">$1,250.00</h2>
       </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center">
+        <p class="text-gray-500">Available</p>
+        <h2 class="text-xl font-semibold">$1,000.00</h2>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center">
+        <p class="text-gray-500">Pending</p>
+        <h2 class="text-xl font-semibold">$250.00</h2>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center">
+        <p class="text-gray-500">Credits</p>
+        <h2 class="text-xl font-semibold">$50.00</h2>
+      </div>
+    </section>
 
-      <div class="bg-[#1d3e2e] rounded-xl p-4 mt-4">
-        <div class="flex justify-between items-center">
-          <span class="text-green-500 text-sm font-semibold">TILL BALANCE <i class="fas fa-exclamation-circle text-yellow-400"></i></span>
-          <i class="fas fa-eye-slash"></i>
-        </div>
-        <p class="text-3xl font-bold mt-2">KSH 278.71</p>
-      </div>
+    <!-- Action Buttons -->
+    <section class="flex gap-4 mb-6">
+      <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Deposit</button>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">Withdraw</button>
+      <button class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">Transfer</button>
+      <button class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded-lg">Statements</button>
+    </section>
 
-      <button class="bg-green-600 w-full text-white py-2 rounded-xl mt-4 font-semibold">GO TO STATEMENTS <i class="fas fa-arrow-right ml-2"></i></button>
+    <!-- Recent Transactions -->
+    <section class="bg-white p-6 rounded-xl shadow">
+      <h3 class="text-xl font-semibold mb-4 text-gray-800">Recent Transactions</h3>
+      <ul class="divide-y divide-gray-200">
+        <li class="flex justify-between py-3">
+          <span>Withdrawal to MPESA</span>
+          <span class="text-red-500">- $100.00</span>
+        </li>
+        <li class="flex justify-between py-3">
+          <span>Deposit from MPESA</span>
+          <span class="text-green-500">+ $300.00</span>
+        </li>
+        <li class="flex justify-between py-3">
+          <span>Freelance Job Payment</span>
+          <span class="text-green-500">+ $750.00</span>
+        </li>
+        <li class="flex justify-between py-3">
+          <span>Platform Fee</span>
+          <span class="text-red-500">- $20.00</span>
+        </li>
+      </ul>
+    </section>
+  </main>
 
-      <!-- Action Buttons -->
-      <div class="flex justify-between mt-4">
-        <div class="flex flex-col items-center text-sm">
-          <div class="bg-[#1d3e2e] p-4 rounded-xl">
-            <i class="fas fa-plus text-green-500"></i>
-          </div>
-          <span class="mt-1">NEW SALE</span>
-        </div>
-        <div class="flex flex-col items-center text-sm">
-          <div class="bg-[#1d3e2e] p-4 rounded-xl">
-            <i class="fas fa-shopping-basket text-green-500"></i>
-          </div>
-          <span class="mt-1">PAY</span>
-        </div>
-        <div class="flex flex-col items-center text-sm">
-          <div class="bg-[#1d3e2e] p-4 rounded-xl">
-            <i class="fas fa-money-bill-wave text-green-500"></i>
-          </div>
-          <span class="mt-1">WITHDRAW</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- My Services Section -->
-    <div class="bg-white rounded-t-2xl p-4 text-black">
-      <h2 class="text-lg font-semibold mb-2">MY SERVICES</h2>
-      <div class="grid grid-cols-3 gap-2">
-        <div class="bg-sky-400 p-4 rounded-md">Financial Services</div>
-        <div class="bg-red-400 p-4 rounded-md">Safaricom Business</div>
-        <div class="bg-blue-400 p-4 rounded-md">Get Insurance</div>
-
-        <div class="bg-green-300 p-4 rounded-md">Business Loans</div>
-        <div class="bg-purple-400 p-4 rounded-md">Marketing</div>
-        <div class="bg-yellow-300 p-4 rounded-md">Stocks & Supplies</div>
-
-        <div class="bg-pink-400 p-4 rounded-md">Loyalty & Marketing</div>
-        <div class="bg-green-300 p-4 rounded-md">Health & Wellness</div>
-        <div class="bg-green-300 p-4 rounded-md">Data and Analytics</div>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 w-full bg-white text-gray-500 flex justify-around items-center py-2 text-xs">
-      <div class="text-green-600 font-semibold flex flex-col items-center">
-        <i class="fas fa-hand-holding-usd"></i>
-        <span>HOME</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <i class="fas fa-store"></i>
-        <span>ORGANIZATION</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <i class="fas fa-random"></i>
-        <span>TRANSACT</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <i class="fas fa-user"></i>
-        <span>ACCOUNT</span>
-      </div>
-    </div>
-  </div>
+  <footer class="text-center py-4 text-gray-500 text-sm">
+    © 2025 WorkHub. All rights reserved.
+  </footer>
 </body>
 </html>
