@@ -1,242 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dialer UI</title>
-  <!-- Include Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      background-color: #121212;
-      color: #ffb6b6;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    .spacer-top {
-      height: 40px;
-    }
-
-    .actions {
-      text-align: left;
-      padding: 10px 20px;
-      margin-top: 20px;
-    }
-
-    .action-item {
-      display: flex;
-      align-items: center;
-      margin: 15px 0;
-      font-size: 18px;
-    }
-
-    .action-item i {
-      margin-right: 10px;
-      color: #ffb6b6;
-      width: 20px;
-      text-align: center;
-    }
-
-    .dial-input-container {
-      position: relative;
-      text-align: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-    }
-
-    .dial-input {
-      font-size: 28px;
-      color: white;
-    }
-
-    .clear-btn {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #ffb6b6;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .dial-pad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 20px;
-    }
-
-    .btn {
-      background: #1a1a1a;
-      border-radius: 25px;
-      padding: 20px 0;
-      font-size: 22px;
-      color: white;
-      text-align: center;
-      user-select: none;
-    }
-
-    .call-btn {
-  background-color: #3ddc84;
-  color: black;
-  font-weight: bold;
-  padding: 15px;
-  text-align: center;
-  border-radius: 25px;
-  width: 100px;
-  margin: 20px auto 60px auto; /* Increased bottom margin */
-  cursor: pointer;
-}
-
-
-    .bottom-bar {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-      color: white;
-    }
-
-    .btn:active {
-      background-color: #2a2a2a;
-    }
-
-    /* Modal Styles */
-    #callModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #callModal .modal-content {
-      background-color: #444;
-      padding: 20px;
-      border-radius: 10px;
-      color: white;
-      text-align: center;
-      width: 90%;
-      max-width: 300px;
-    }
-
-    #callModal .modal-actions {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-around;
-    }
-
-    #callModal button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #callModal .dismiss-btn {
-      background: white;
-      color: black;
-    }
-
-    #callModal .reply-btn {
-      background: black;
-      color: white;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Clone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
-<body>
+<body class="bg-[#133221] text-white font-sans">
+  <div class="p-4">
+    <!-- Top Bar -->
+    <div class="flex justify-between items-center text-xs text-white mb-4">
+      <span>9:24 am</span>
+      <div class="flex gap-2">
+        <i class="fas fa-signal"></i>
+        <span>4G</span>
+        <i class="fas fa-battery-three-quarters"></i>
+        <span>32%</span>
+      </div>
+    </div>
 
-  <div class="spacer-top"></div>
+    <!-- Profile & Balance Card -->
+    <div class="mb-4">
+      <div class="flex items-center gap-4">
+        <div class="bg-white text-green-800 font-bold w-10 h-10 rounded-full flex items-center justify-center">JA</div>
+        <div>
+          <p class="text-sm font-semibold">NOVA PRIME</p>
+          <p class="text-sm">JACOB AMAITSA <span class="text-yellow-400">👋</span></p>
+        </div>
+        <div class="ml-auto flex gap-3">
+          <div class="w-8 h-8 bg-[#1d3e2e] rounded-full flex items-center justify-center">
+            <i class="fas fa-qrcode text-pink-400"></i>
+          </div>
+          <div class="w-8 h-8 bg-[#1d3e2e] rounded-full flex items-center justify-center">
+            <i class="fas fa-clock text-pink-400"></i>
+          </div>
+        </div>
+      </div>
 
-  <div class="actions">
-    <div class="action-item"><i class="fas fa-user-plus"></i>Create new contact</div>
-    <div class="action-item"><i class="fas fa-user-edit"></i>Add to a contact</div>
-    <div class="action-item"><i class="fas fa-comment"></i>Send a message</div>
-  </div>
+      <div class="bg-[#1d3e2e] rounded-xl p-4 mt-4">
+        <div class="flex justify-between items-center">
+          <span class="text-green-500 text-sm font-semibold">TILL BALANCE <i class="fas fa-exclamation-circle text-yellow-400"></i></span>
+          <i class="fas fa-eye-slash"></i>
+        </div>
+        <p class="text-3xl font-bold mt-2">KSH 278.71</p>
+      </div>
 
-  <div class="dial-input-container">
-    <div class="dial-input" id="dialInput">*22222223</div>
-    <button class="clear-btn" onclick="clearInput()"><i class="fas fa-times"></i></button>
-  </div>
+      <button class="bg-green-600 w-full text-white py-2 rounded-xl mt-4 font-semibold">GO TO STATEMENTS <i class="fas fa-arrow-right ml-2"></i></button>
 
-  <div class="dial-pad">
-    <div class="btn" onclick="addChar('1')">1</div>
-    <div class="btn" onclick="addChar('2')">2<br><small>ABC</small></div>
-    <div class="btn" onclick="addChar('3')">3<br><small>DEF</small></div>
-    <div class="btn" onclick="addChar('4')">4<br><small>GHI</small></div>
-    <div class="btn" onclick="addChar('5')">5<br><small>JKL</small></div>
-    <div class="btn" onclick="addChar('6')">6<br><small>MNO</small></div>
-    <div class="btn" onclick="addChar('7')">7<br><small>PQRS</small></div>
-    <div class="btn" onclick="addChar('8')">8<br><small>TUV</small></div>
-    <div class="btn" onclick="addChar('9')">9<br><small>WXYZ</small></div>
-    <div class="btn" onclick="addChar('*')">*</div>
-    <div class="btn" onclick="addChar('0')">0<br><small>+</small></div>
-    <div class="btn" onclick="addChar('#')">#</div>
-  </div>
+      <!-- Action Buttons -->
+      <div class="flex justify-between mt-4">
+        <div class="flex flex-col items-center text-sm">
+          <div class="bg-[#1d3e2e] p-4 rounded-xl">
+            <i class="fas fa-plus text-green-500"></i>
+          </div>
+          <span class="mt-1">NEW SALE</span>
+        </div>
+        <div class="flex flex-col items-center text-sm">
+          <div class="bg-[#1d3e2e] p-4 rounded-xl">
+            <i class="fas fa-shopping-basket text-green-500"></i>
+          </div>
+          <span class="mt-1">PAY</span>
+        </div>
+        <div class="flex flex-col items-center text-sm">
+          <div class="bg-[#1d3e2e] p-4 rounded-xl">
+            <i class="fas fa-money-bill-wave text-green-500"></i>
+          </div>
+          <span class="mt-1">WITHDRAW</span>
+        </div>
+      </div>
+    </div>
 
-  <div class="call-btn" onclick="makeCall()">Call</div>
+    <!-- My Services Section -->
+    <div class="bg-white rounded-t-2xl p-4 text-black">
+      <h2 class="text-lg font-semibold mb-2">MY SERVICES</h2>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-sky-400 p-4 rounded-md">Financial Services</div>
+        <div class="bg-red-400 p-4 rounded-md">Safaricom Business</div>
+        <div class="bg-blue-400 p-4 rounded-md">Get Insurance</div>
 
-  <div class="bottom-bar">
-    <div>◀</div>
-    <div>●</div>
-    <div>▢</div>
-  </div>
+        <div class="bg-green-300 p-4 rounded-md">Business Loans</div>
+        <div class="bg-purple-400 p-4 rounded-md">Marketing</div>
+        <div class="bg-yellow-300 p-4 rounded-md">Stocks & Supplies</div>
 
-  <!-- Modal -->
-  <div id="callModal">
-    <div class="modal-content">
-      <p id="modalText"></p>
-      <div class="modal-actions">
-        <button class="dismiss-btn" onclick="closeModal()">Dismiss</button>
-        <button class="reply-btn" onclick="reply()">Reply</button>
+        <div class="bg-pink-400 p-4 rounded-md">Loyalty & Marketing</div>
+        <div class="bg-green-300 p-4 rounded-md">Health & Wellness</div>
+        <div class="bg-green-300 p-4 rounded-md">Data and Analytics</div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 w-full bg-white text-gray-500 flex justify-around items-center py-2 text-xs">
+      <div class="text-green-600 font-semibold flex flex-col items-center">
+        <i class="fas fa-hand-holding-usd"></i>
+        <span>HOME</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <i class="fas fa-store"></i>
+        <span>ORGANIZATION</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <i class="fas fa-random"></i>
+        <span>TRANSACT</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <i class="fas fa-user"></i>
+        <span>ACCOUNT</span>
       </div>
     </div>
   </div>
-
-  <script>
-    const input = document.getElementById("dialInput");
-    const modal = document.getElementById("callModal");
-    const modalText = document.getElementById("modalText");
-
-    function addChar(char) {
-      if (input.innerText === "*22222223") {
-        input.innerText = "";
-      }
-      input.innerText += char;
-    }
-
-    function clearInput() {
-      input.innerText = "";
-    }
-
-    function makeCall() {
-  modalText.innerHTML = `
-    The Balance For 01101*****5001:<br>
-    Book Balance KES 991804.80,<br>
-    Available Balance KES 991804.80,<br>
-    E-Loan Limit KES 0.00.<br><br>
-    Do you want another transaction?<br>1. Yes<br>2. No
-  `;
-  modal.style.display = "flex";
-}
-
-    function closeModal() {
-      modal.style.display = "none";
-    }
-
-    function reply() {
-      alert("Reply clicked!");
-      closeModal();
-    }
-  </script>
 </body>
-  </html>
+</html>
