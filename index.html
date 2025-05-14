@@ -1,42 +1,159 @@
-// account.js
-let balance = parseFloat(localStorage.getItem('workhub_balance')) || 0;
-let credit = parseFloat(localStorage.getItem('workhub_credit')) || 0;
-let transactionType = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkHub</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div id="auth-section" class="w-full max-w-sm p-6 bg-white rounded shadow">
+    <h2 class="text-2xl font-bold mb-4 text-center" id="auth-title">Login</h2>
+    <input id="username" type="text" placeholder="Username" class="w-full border mb-3 px-3 py-2 rounded">
+    <input id="password" type="password" placeholder="Password" class="w-full border mb-3 px-3 py-2 rounded">
+    <button onclick="handleAuth()" class="w-full bg-blue-600 text-white py-2 rounded">Continue</button>
+    <p class="text-sm mt-3 text-center">
+      <span id="toggle-auth" class="text-blue-600 cursor-pointer">Don't have an account? Register</span>
+    </p>
+  </div>
 
-document.getElementById('balance').textContent = `$${balance.toFixed(2)}`;
-document.getElementById('credit').textContent = `$${credit.toFixed(2)}`;
+  <div id="dashboard-section" class="hidden max-w-2xl w-full p-6 bg-white rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Welcome, <span id="user-display"></span></h2>
 
-function openModal(type) {
-  transactionType = type;
-  document.getElementById('modal-title').textContent = `${type === 'deposit' ? 'Deposit Funds' : 'Withdraw Funds'}`;
-  document.getElementById('amount-input').value = '';
-  document.getElementById('modal').classList.remove('hidden');
-  document.getElementById('modal').classList.add('flex');
-}
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <div>
+        <p class="text-gray-600">Balance</p>
+        <p id="balance" class="text-2xl font-bold text-green-600">$0.00</p>
+      </div>
+      <div>
+        <p class="text-gray-600">Credit</p>
+        <p id="credit" class="text-2xl font-bold text-blue-600">$0.00</p>
+      </div>
+    </div>
 
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-  document.getElementById('modal').classList.remove('flex');
-}
+    <div class="mt-6 flex justify-center gap-4">
+      <button onclick="openModal('deposit')" class="bg-green-500 text-white px-4 py-2 rounded">Deposit</button>
+      <button onclick="openModal('withdraw')" class="bg-red-500 text-white px-4 py-2 rounded">Withdraw</button>
+    </div>
+    <button onclick="logout()" class="mt-6 w-full bg-gray-300 text-black py-2 rounded">Logout</button>
+  </div>
 
-function submitTransaction() {
-  const amount = parseFloat(document.getElementById('amount-input').value);
-  if (isNaN(amount) || amount <= 0) {
-    alert("Enter a valid amount.");
-    return;
-  }
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white p-6 rounded w-80">
+      <h3 id="modal-title" class="text-lg font-bold mb-4"></h3>
+      <input id="amount-input" type="number" class="w-full border px-3 py-2 rounded mb-4" placeholder="Enter amount"/>
+      <button onclick="submitTransaction()" class="w-full bg-blue-500 text-white py-2 rounded">Submit</button>
+      <button onclick="closeModal()" class="mt-2 w-full text-gray-600">Cancel</button>
+    </div>
+  </div>
 
-  if (transactionType === 'deposit') {
-    balance += amount;
-  } else if (transactionType === 'withdraw') {
-    if (amount > balance) {
-      alert("Insufficient balance.");
-      return;
+  <script>
+    let transactionType = null;
+    let currentUser = null;
+
+    function getUserData(username) {
+      const data = localStorage.getItem(`workhub_${username}`);
+      return data ? JSON.parse(data) : null;
     }
-    balance -= amount;
-  }
 
-  localStorage.setItem('workhub_balance', balance.toFixed(2));
-  document.getElementById('balance').textContent = `$${balance.toFixed(2)}`;
-  closeModal();
-}
+    function saveUserData(username, data) {
+      localStorage.setItem(`workhub_${username}`, JSON.stringify(data));
+    }
+
+    function handleAuth() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const authTitle = document.getElementById('auth-title').textContent;
+
+      if (!username || !password) return alert("All fields are required");
+
+      const existingUser = getUserData(username);
+
+      if (authTitle === "Login") {
+        if (!existingUser || existingUser.password !== password) {
+          alert("Invalid credentials");
+          return;
+        }
+        loginUser(username);
+      } else {
+        if (existingUser) {
+          alert("User already exists");
+          return;
+        }
+        const newUser = { password, balance: 0, credit: 0 };
+        saveUserData(username, newUser);
+        loginUser(username);
+      }
+    }
+
+    function loginUser(username) {
+      currentUser = username;
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('dashboard-section').classList.remove('hidden');
+      document.getElementById('user-display').textContent = username;
+      updateBalances();
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('auth-section').classList.remove('hidden');
+      document.getElementById('dashboard-section').classList.add('hidden');
+    }
+
+    function updateBalances() {
+      const data = getUserData(currentUser);
+      document.getElementById('balance').textContent = `$${data.balance.toFixed(2)}`;
+      document.getElementById('credit').textContent = `$${data.credit.toFixed(2)}`;
+    }
+
+    function openModal(type) {
+      transactionType = type;
+      document.getElementById('modal-title').textContent = `${type === 'deposit' ? 'Deposit Funds' : 'Withdraw Funds'}`;
+      document.getElementById('amount-input').value = '';
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+
+    function submitTransaction() {
+      const amount = parseFloat(document.getElementById('amount-input').value);
+      if (isNaN(amount) || amount <= 0) {
+        alert("Enter a valid amount.");
+        return;
+      }
+
+      const data = getUserData(currentUser);
+
+      if (transactionType === 'deposit') {
+        data.balance += amount;
+      } else if (transactionType === 'withdraw') {
+        if (amount > data.balance) {
+          alert("Insufficient balance.");
+          return;
+        }
+        data.balance -= amount;
+      }
+
+      saveUserData(currentUser, data);
+      updateBalances();
+      closeModal();
+    }
+
+    document.getElementById('toggle-auth').addEventListener('click', () => {
+      const title = document.getElementById('auth-title');
+      if (title.textContent === 'Login') {
+        title.textContent = 'Register';
+        document.getElementById('toggle-auth').textContent = 'Already have an account? Login';
+      } else {
+        title.textContent = 'Login';
+        document.getElementById('toggle-auth').textContent = "Don't have an account? Register";
+      }
+    });
+  </script>
+</body>
+</html>
