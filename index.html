@@ -1,135 +1,160 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Airbnb Listings Clone</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Airbnb Listings Clone - Counties Version</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f7f7;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 24px;
+      color: #ff385c;
+      cursor: default;
+      user-select: none;
+    }
+
+    /* Filters - replacing previous filters */
+    .filters {
+      max-width: 1200px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filters button {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      user-select: none;
+    }
+    .filters button:hover {
+      background-color: #ffe6eb;
+      border-color: #ff385c;
+      color: #ff385c;
+    }
+
+    /* Listings Grid */
+    main.listings {
+      max-width: 1200px;
+      margin: 25px auto 50px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    article.property-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    article.property-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .property-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .property-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #ff385c;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .filters {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body>
 
-  <!-- Header with Search Bar -->
-  <header class="bg-white shadow p-4 sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+<header>
+  <div class="logo">airbnb</div>
+</header>
 
-      <div class="text-3xl font-bold text-red-600 cursor-pointer select-none">airbnb</div>
+<div class="filters">
+  <button>NAIROBI</button>
+  <button>MOMBASA</button>
+  <button>KISUMU</button>
+  <button>NAKURU</button>
+  <button>ELDORET</button>
+  <button>NANYUKI</button>
+</div>
 
-      <form class="flex flex-col md:flex-row items-center w-full max-w-4xl space-y-2 md:space-y-0 md:space-x-4">
-        <input
-          type="text"
-          placeholder="Location"
-          class="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-          required
-        />
-        <input
-          type="date"
-          placeholder="Check-in"
-          class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-          required
-        />
-        <input
-          type="date"
-          placeholder="Check-out"
-          class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-          required
-        />
-        <select class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400" required>
-          <option value="" disabled selected>Guests</option>
-          <option>1 Guest</option>
-          <option>2 Guests</option>
-          <option>3 Guests</option>
-          <option>4 Guests</option>
-          <option>5+ Guests</option>
-        </select>
-        <button
-          type="submit"
-          class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md font-semibold transition"
-        >
-          Search
-        </button>
-      </form>
-    </div>
-  </header>
-
-  <!-- Filters Bar -->
-  <section class="max-w-7xl mx-auto px-4 py-6 flex flex-wrap gap-4 bg-white shadow rounded-md mt-6">
-    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Price</button>
-    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Type of Place</button>
-    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Rooms and Beds</button>
-    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">More Filters</button>
-  </section>
-
-  <!-- Listings Grid -->
-  <main class="max-w-7xl mx-auto px-4 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-    <!-- Single Property Card -->
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80"
-        alt="Cozy Apartment"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Cozy Apartment in Downtown</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.9 (120)
-        </div>
-        <div class="font-semibold text-gray-900">$120 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
-        alt="Modern Loft"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Modern Loft in City Center</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.8 (87)
-        </div>
-        <div class="font-semibold text-gray-900">$150 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
-        alt="Beach House"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Beach House with Ocean View</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.7 (65)
-        </div>
-        <div class="font-semibold text-gray-900">$220 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
-        alt="Mountain Cabin"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Mountain Cabin Retreat</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.9 (110)
-        </div>
-        <div class="font-semibold text-gray-900">$180 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <!-- Add more property cards as needed -->
-
-  </main>
+<main class="listings">
+  <article class="property-card">
+    <img src="images/nairobi1.jpg" alt="Nairobi" class="property-img" />
+    <div class="property-info">NAIROBI</div>
+  </article>
+  <article class="property-card">
+    <img src="images/mombasa1.jpg" alt="Mombasa" class="property-img" />
+    <div class="property-info">MOMBASA</div>
+  </article>
+  <article class="property-card">
+    <img src="images/kisumu1.jpg" alt="Kisumu" class="property-img" />
+    <div class="property-info">KISUMU</div>
+  </article>
+  <article class="property-card">
+    <img src="images/nakuru1.jpg" alt="Nakuru" class="property-img" />
+    <div class="property-info">NAKURU</div>
+  </article>
+  <article class="property-card">
+    <img src="images/eldoret1.jpg" alt="Eldoret" class="property-img" />
+    <div class="property-info">ELDORET</div>
+  </article>
+  <article class="property-card">
+    <img src="images/nanyuki1.jpg" alt="Nanyuki" class="property-img" />
+    <div class="property-info">NANYUKI</div>
+  </article>
+</main>
 
 </body>
 </html>
