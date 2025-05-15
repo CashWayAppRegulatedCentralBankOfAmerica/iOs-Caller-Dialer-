@@ -25,6 +25,7 @@
       background: white;
       padding: 15px 20px;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -40,7 +41,7 @@
       user-select: none;
     }
 
-    /* Filters - replacing previous filters */
+    /* Filters */
     .filters {
       max-width: 1200px;
       margin: 20px auto 0;
@@ -48,7 +49,6 @@
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
-      justify-content: center;
     }
     .filters button {
       background: white;
@@ -58,7 +58,6 @@
       font-size: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease;
-      user-select: none;
     }
     .filters button:hover {
       background-color: #ffe6eb;
@@ -99,11 +98,25 @@
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      justify-content: space-between;
+    }
+    h3.property-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ff385c;
+    }
+    /* Remove rating */
+    .property-rating {
+      display: none;
+    }
+    /* Property price replaced by county names */
+    .property-price {
       font-weight: bold;
       font-size: 18px;
-      color: #ff385c;
+      color: #333;
+      text-align: center;
+      margin-top: 10px;
     }
 
     /* Responsive tweaks */
@@ -118,6 +131,7 @@
 
 <header>
   <div class="logo">airbnb</div>
+  <!-- Removed the search bar form entirely -->
 </header>
 
 <div class="filters">
@@ -132,27 +146,45 @@
 <main class="listings">
   <article class="property-card">
     <img src="images/nairobi1.jpg" alt="Nairobi" class="property-img" />
-    <div class="property-info">NAIROBI</div>
+    <div class="property-info">
+      <h3 class="property-title">Beautiful Nairobi Home</h3>
+      <div class="property-price">NAIROBI</div>
+    </div>
   </article>
   <article class="property-card">
     <img src="images/mombasa1.jpg" alt="Mombasa" class="property-img" />
-    <div class="property-info">MOMBASA</div>
+    <div class="property-info">
+      <h3 class="property-title">Cozy Beachside Apartment</h3>
+      <div class="property-price">MOMBASA</div>
+    </div>
   </article>
   <article class="property-card">
     <img src="images/kisumu1.jpg" alt="Kisumu" class="property-img" />
-    <div class="property-info">KISUMU</div>
+    <div class="property-info">
+      <h3 class="property-title">Lake View Villa</h3>
+      <div class="property-price">KISUMU</div>
+    </div>
   </article>
   <article class="property-card">
     <img src="images/nakuru1.jpg" alt="Nakuru" class="property-img" />
-    <div class="property-info">NAKURU</div>
+    <div class="property-info">
+      <h3 class="property-title">Modern Nakuru Bungalow</h3>
+      <div class="property-price">NAKURU</div>
+    </div>
   </article>
   <article class="property-card">
     <img src="images/eldoret1.jpg" alt="Eldoret" class="property-img" />
-    <div class="property-info">ELDORET</div>
+    <div class="property-info">
+      <h3 class="property-title">Spacious Eldoret Cottage</h3>
+      <div class="property-price">ELDORET</div>
+    </div>
   </article>
   <article class="property-card">
     <img src="images/nanyuki1.jpg" alt="Nanyuki" class="property-img" />
-    <div class="property-info">NANYUKI</div>
+    <div class="property-info">
+      <h3 class="property-title">Nanyuki Mountain Retreat</h3>
+      <div class="property-price">NANYUKI</div>
+    </div>
   </article>
 </main>
 
