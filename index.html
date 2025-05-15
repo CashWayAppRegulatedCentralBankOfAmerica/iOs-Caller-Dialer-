@@ -1,48 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayPal Bottom Nav Clone</title>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    window.onload = () => {
-      lucide.createIcons();
-    };
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Airbnb Listings Clone</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 pb-20">
+<body class="bg-gray-50 font-sans">
 
-  <!-- Bottom Navigation -->
-  <nav class="fixed bottom-0 left-0 w-full bg-white shadow-lg border-t z-50">
-    <div class="flex justify-between items-center px-6 py-2 text-sm text-gray-500">
-      
-      <!-- Home -->
-      <button class="flex flex-col items-center justify-center hover:text-blue-600">
-        <i data-lucide="home" class="w-6 h-6 mb-1"></i>
-        <span>Home</span>
-      </button>
-      
-      <!-- Send -->
-      <button class="flex flex-col items-center justify-center hover:text-blue-600">
-        <i data-lucide="send" class="w-6 h-6 mb-1"></i>
-        <span>Send</span>
-      </button>
+  <!-- Header with Search Bar -->
+  <header class="bg-white shadow p-4 sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
 
-      <!-- Payments -->
-      <button class="flex flex-col items-center justify-center hover:text-blue-600">
-        <i data-lucide="dollar-sign" class="w-6 h-6 mb-1"></i>
-        <span>Payments</span>
-      </button>
+      <div class="text-3xl font-bold text-red-600 cursor-pointer select-none">airbnb</div>
 
-      <!-- Wallet -->
-      <button class="flex flex-col items-center justify-center hover:text-blue-600">
-        <i data-lucide="wallet" class="w-6 h-6 mb-1"></i>
-        <span>Wallet</span>
-      </button>
+      <form class="flex flex-col md:flex-row items-center w-full max-w-4xl space-y-2 md:space-y-0 md:space-x-4">
+        <input
+          type="text"
+          placeholder="Location"
+          class="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+          required
+        />
+        <input
+          type="date"
+          placeholder="Check-in"
+          class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+          required
+        />
+        <input
+          type="date"
+          placeholder="Check-out"
+          class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
+          required
+        />
+        <select class="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400" required>
+          <option value="" disabled selected>Guests</option>
+          <option>1 Guest</option>
+          <option>2 Guests</option>
+          <option>3 Guests</option>
+          <option>4 Guests</option>
+          <option>5+ Guests</option>
+        </select>
+        <button
+          type="submit"
+          class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md font-semibold transition"
+        >
+          Search
+        </button>
+      </form>
     </div>
-  </nav>
+  </header>
+
+  <!-- Filters Bar -->
+  <section class="max-w-7xl mx-auto px-4 py-6 flex flex-wrap gap-4 bg-white shadow rounded-md mt-6">
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Price</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Type of Place</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Rooms and Beds</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">More Filters</button>
+  </section>
+
+  <!-- Listings Grid -->
+  <main class="max-w-7xl mx-auto px-4 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+    <!-- Single Property Card -->
+    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
+      <img
+        src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80"
+        alt="Cozy Apartment"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Cozy Apartment in Downtown</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.9 (120)
+        </div>
+        <div class="font-semibold text-gray-900">$120 <span class="font-normal text-gray-600">/ night</span></div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
+      <img
+        src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
+        alt="Modern Loft"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Modern Loft in City Center</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.8 (87)
+        </div>
+        <div class="font-semibold text-gray-900">$150 <span class="font-normal text-gray-600">/ night</span></div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
+      <img
+        src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
+        alt="Beach House"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Beach House with Ocean View</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.7 (65)
+        </div>
+        <div class="font-semibold text-gray-900">$220 <span class="font-normal text-gray-600">/ night</span></div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
+      <img
+        src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
+        alt="Mountain Cabin"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Mountain Cabin Retreat</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.9 (110)
+        </div>
+        <div class="font-semibold text-gray-900">$180 <span class="font-normal text-gray-600">/ night</span></div>
+      </div>
+    </article>
+
+    <!-- Add more property cards as needed -->
+
+  </main>
 
 </body>
 </html>
