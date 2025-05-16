@@ -3,12 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Airbnb Listings Clone</title>
+  <title>Nova Stays KE - Listings</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Modal background */
+    .modal-bg {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    /* Vertical gallery container */
+    .vertical-gallery {
+      max-height: 400px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #e53e3e transparent;
+    }
+    .vertical-gallery::-webkit-scrollbar {
+      width: 6px;
+    }
+    .vertical-gallery::-webkit-scrollbar-thumb {
+      background-color: #e53e3e;
+      border-radius: 3px;
+    }
+
+    /* Gallery image active border */
+    .gallery-img.active {
+      border: 2px solid #e53e3e;
+    }
+  </style>
 </head>
 <body class="bg-gray-50 font-sans">
 
-  <!-- Header without Search Bar -->
+  <!-- Header -->
   <header class="bg-white shadow p-4 sticky top-0 z-10">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="text-3xl font-bold text-red-600 cursor-pointer select-none">Nova Stays KE</div>
@@ -27,7 +53,11 @@
   <main class="max-w-7xl mx-auto px-4 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
     <!-- Single Property Card -->
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
+    <article
+      class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
+      data-id="1"
+      onclick="openListingDetail(1)"
+    >
       <img
         src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80"
         alt="Cozy Apartment"
@@ -43,55 +73,142 @@
       </div>
     </article>
 
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
-        alt="Modern Loft"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Modern Loft in City Center</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.8 (87)
-        </div>
-        <div class="font-semibold text-gray-900">$150 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
-        alt="Beach House"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Beach House with Ocean View</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.7 (65)
-        </div>
-        <div class="font-semibold text-gray-900">$220 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
-    <article class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
-        alt="Mountain Cabin"
-        class="w-full h-48 object-cover"
-      />
-      <div class="p-4">
-        <h3 class="text-lg font-semibold mb-1">Mountain Cabin Retreat</h3>
-        <div class="flex items-center text-sm text-gray-600 mb-2">
-          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
-          4.9 (110)
-        </div>
-        <div class="font-semibold text-gray-900">$180 <span class="font-normal text-gray-600">/ night</span></div>
-      </div>
-    </article>
-
   </main>
 
+  <!-- Listing Detail Modal -->
+  <div id="listingModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-6 overflow-auto">
+    <div class="bg-white rounded-lg shadow-xl max-w-5xl w-full flex flex-col md:flex-row">
+      
+      <!-- Left side: info -->
+      <div class="p-6 flex-1">
+        <h2 id="modalTitle" class="text-3xl font-bold mb-4">Listing Title</h2>
+
+        <p id="modalPrice" class="text-2xl font-semibold text-red-600 mb-4">$120 / night</p>
+
+        <p id="modalDescription" class="mb-6 text-gray-700 leading-relaxed">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at risus nec justo suscipit aliquam.
+        </p>
+
+        <div id="modalReviews" class="space-y-4">
+          <h3 class="text-xl font-semibold mb-2">Reviews</h3>
+          <div class="border border-gray-200 rounded p-4 bg-gray-50">
+            <p class="text-gray-800"><strong>Jane Doe:</strong> "Amazing stay! The apartment was clean and in a great location."</p>
+          </div>
+          <div class="border border-gray-200 rounded p-4 bg-gray-50">
+            <p class="text-gray-800"><strong>John Smith:</strong> "Highly recommend! Great value for the price."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: vertical gallery -->
+      <div class="flex flex-col border-l border-gray-200 w-full md:w-96 p-4">
+
+        <div id="galleryMain" class="h-64 mb-4 rounded-lg overflow-hidden">
+          <img src="" alt="Listing Image" id="mainImage" class="w-full h-full object-cover rounded-lg" />
+        </div>
+
+        <div
+          id="galleryThumbnails"
+          class="vertical-gallery flex flex-col gap-2 overflow-y-auto"
+          style="max-height: 320px;"
+        >
+          <!-- Thumbnails inserted dynamically -->
+        </div>
+
+        <button
+          aria-label="Close modal"
+          onclick="closeListingDetail()"
+          class="mt-auto bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded text-center"
+        >
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Sample data for listings with multiple images, description, price, reviews
+    const listingsData = {
+      1: {
+        title: "Cozy Apartment in Downtown",
+        price: 120,
+        description:
+          "Enjoy your stay at this cozy downtown apartment with modern amenities, fast WiFi, and easy access to restaurants and nightlife.",
+        images: [
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1560448070-23eec17863e0?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1549187774-b4e9b0445b70?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1505692794409-54a362f7e517?auto=format&fit=crop&w=800&q=80"
+        ],
+        reviews: [
+          { author: "Jane Doe", text: "Amazing stay! The apartment was clean and in a great location." },
+          { author: "John Smith", text: "Highly recommend! Great value for the price." }
+        ]
+      }
+      // Add more listings here if needed
+    };
+
+    // Open modal and populate data
+    function openListingDetail(id) {
+      const listing = listingsData[id];
+      if (!listing) return;
+
+      document.getElementById("modalTitle").textContent = listing.title;
+      document.getElementById("modalPrice").textContent = `$${listing.price} / night`;
+      document.getElementById("modalDescription").textContent = listing.description;
+
+      // Reviews
+      const reviewsContainer = document.getElementById("modalReviews");
+      reviewsContainer.innerHTML = '<h3 class="text-xl font-semibold mb-2">Reviews</h3>';
+      listing.reviews.forEach(review => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.className = "border border-gray-200 rounded p-4 bg-gray-50";
+        reviewDiv.innerHTML = `<p class="text-gray-800"><strong>${review.author}:</strong> "${review.text}"</p>`;
+        reviewsContainer.appendChild(reviewDiv);
+      });
+
+      // Gallery thumbnails
+      const galleryThumbnails = document.getElementById("galleryThumbnails");
+      galleryThumbnails.innerHTML = "";
+      listing.images.forEach((imgSrc, index) => {
+        const thumb = document.createElement("img");
+        thumb.src = imgSrc;
+        thumb.alt = listing.title + " image " + (index + 1);
+        thumb.className = "gallery-img rounded-lg cursor-pointer object-cover h-20 w-full border border-transparent hover:border-red-600 transition";
+        thumb.onclick = () => setMainImage(imgSrc, thumb);
+        galleryThumbnails.appendChild(thumb);
+      });
+
+      // Set first image as main
+      setMainImage(listing.images[0], galleryThumbnails.querySelector("img"));
+
+      // Show modal
+      document.getElementById("listingModal").classList.remove("hidden");
+      document.getElementById("listingModal").classList.add("flex");
+      document.body.style.overflow = "hidden"; // prevent background scroll
+    }
+
+    // Close modal
+    function closeListingDetail() {
+      document.getElementById("listingModal").classList.add("hidden");
+      document.getElementById("listingModal").classList.remove("flex");
+      document.body.style.overflow = "auto";
+    }
+
+    // Change main image and highlight selected thumbnail
+    function setMainImage(src, thumb) {
+      document.getElementById("mainImage").src = src;
+      // Remove active class from all thumbs
+      document.querySelectorAll(".gallery-img").forEach(img => img.classList.remove("active"));
+      // Add active class to selected thumb
+      thumb.classList.add("active");
+    }
+
+    // Optional: Close modal on background click
+    document.getElementById("listingModal").addEventListener("click", (e) => {
+      if (e.target.id === "listingModal") closeListingDetail();
+    });
+  </script>
 </body>
 </html>
