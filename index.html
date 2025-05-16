@@ -2,141 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Airbnb Style Listings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nova Stay KE - Listings</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-6">
+<body class="bg-gray-100 min-h-screen">
 
-  <!-- Logo -->
-  <div class="flex justify-center mb-8">
-    <img src="https://via.placeholder.com/180x50?text=Your+Logo" alt="Logo" class="h-12" />
-  </div>
+  <!-- Header with Logo -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <img src="https://via.placeholder.com/150x50?text=NOVA+STAY+KE" alt="Nova Stay KE Logo" class="h-10">
+      <h1 class="text-2xl font-bold text-gray-800">Nova Stay KE</h1>
+    </div>
+  </header>
 
   <!-- Title -->
-  <h1 class="text-3xl font-bold text-center mb-6">Available Listings</h1>
+  <section class="text-center my-8">
+    <h2 class="text-3xl font-bold">Explore Our Spaces</h2>
+    <p class="text-gray-600 mt-2">Find your next stay in Kenya with comfort & convenience</p>
+  </section>
 
   <!-- Listings -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    <div class="bg-white rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="openListingModal(0)">
-      <img src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+  <main class="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto">
+    <!-- Repeat for each listing -->
+    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition cursor-pointer" onclick="openListingModal(0)">
+      <img src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover rounded-t-lg" />
       <div class="p-4">
-        <h3 class="text-lg font-semibold">Cozy Apartment in Downtown</h3>
-        <p class="text-sm text-gray-600 mt-1">Downtown, Nairobi</p>
-        <p class="text-sm font-semibold text-green-700 mt-2">$120 / night</p>
+        <h3 class="font-semibold text-lg">Cozy Apartment - Kilimani</h3>
+        <p class="text-sm text-gray-500">Kilimani, Nairobi</p>
+        <div class="text-sm text-gray-700 mt-2 space-y-1">
+          <p><strong>Price:</strong> $120/night</p>
+          <p><strong>Beds:</strong> 2</p>
+          <p><strong>Wi-Fi:</strong> ✔️ | <strong>TV:</strong> ✔️ | <strong>Parking:</strong> ❌</p>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="openListingModal(1)">
-      <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition cursor-pointer" onclick="openListingModal(1)">
+      <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover rounded-t-lg" />
       <div class="p-4">
-        <h3 class="text-lg font-semibold">Modern Loft in City Center</h3>
-        <p class="text-sm text-gray-600 mt-1">Upper Hill, Nairobi</p>
-        <p class="text-sm font-semibold text-green-700 mt-2">$150 / night</p>
+        <h3 class="font-semibold text-lg">City View Loft - Westlands</h3>
+        <p class="text-sm text-gray-500">Westlands, Nairobi</p>
+        <div class="text-sm text-gray-700 mt-2 space-y-1">
+          <p><strong>Price:</strong> $160/night</p>
+          <p><strong>Beds:</strong> 3</p>
+          <p><strong>Wi-Fi:</strong> ✔️ | <strong>TV:</strong> ✔️ | <strong>Parking:</strong> ✔️</p>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="openListingModal(2)">
-      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition cursor-pointer" onclick="openListingModal(2)">
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover rounded-t-lg" />
       <div class="p-4">
-        <h3 class="text-lg font-semibold">Beach House with Ocean View</h3>
-        <p class="text-sm text-gray-600 mt-1">Diani Beach, Kenya</p>
-        <p class="text-sm font-semibold text-green-700 mt-2">$220 / night</p>
+        <h3 class="font-semibold text-lg">Diani Beach House</h3>
+        <p class="text-sm text-gray-500">Diani, Mombasa</p>
+        <div class="text-sm text-gray-700 mt-2 space-y-1">
+          <p><strong>Price:</strong> $250/night</p>
+          <p><strong>Beds:</strong> 4</p>
+          <p><strong>Wi-Fi:</strong> ✔️ | <strong>TV:</strong> ❌ | <strong>Parking:</strong> ✔️</p>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- Listing Modal -->
-  <div id="listingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl overflow-hidden shadow-lg w-full max-w-4xl relative flex flex-col md:flex-row">
-      <!-- Left: Main Image and Info -->
-      <div class="relative w-full md:w-2/3 h-96 md:h-auto">
-        <img id="modalMainImage" src="" class="w-full h-full object-cover" />
-        <!-- Host info -->
-        <div id="hostInfo" class="absolute top-3 left-3 bg-white bg-opacity-90 px-4 py-2 rounded-md text-sm text-gray-800 shadow"></div>
-        <!-- Close button -->
-        <button onclick="closeListingModal()" class="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-red-100 transition">
-          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <!-- Address -->
-        <div id="modalAddress" class="absolute bottom-3 left-3 bg-white bg-opacity-90 px-4 py-2 rounded-md text-sm text-gray-800 shadow"></div>
+  <!-- Modal -->
+  <div id="listingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-4xl rounded-lg overflow-hidden flex flex-col md:flex-row shadow-lg relative">
+      <!-- Left image -->
+      <div class="md:w-2/3 h-64 md:h-auto">
+        <img id="modalImage" src="" class="w-full h-full object-cover" />
       </div>
-
-      <!-- Right: Details and Booking -->
-      <div class="w-full md:w-1/3 p-6 flex flex-col justify-between">
+      <!-- Right info -->
+      <div class="p-6 flex-1 flex flex-col justify-between">
         <div>
           <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
-          <p id="modalDescription" class="text-gray-700 text-sm mb-4"></p>
-          <div class="thumbs-container space-y-2 mb-4">
-            <img id="thumb1" src="" onclick="changeMainImage(this.src)" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition" />
-            <img id="thumb2" src="" onclick="changeMainImage(this.src)" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition" />
+          <p id="modalLocation" class="text-sm text-gray-600 mb-3"></p>
+          <div class="text-sm text-gray-700 space-y-1 mb-4">
+            <p id="modalPrice"></p>
+            <p id="modalBeds"></p>
+            <p id="modalAmenities"></p>
           </div>
         </div>
-        <div class="space-y-3">
-          <div class="text-gray-800 font-semibold text-lg" id="modalPrice"></div>
-          <button class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition font-semibold">Book Now</button>
-        </div>
+        <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded">Book Now</button>
       </div>
+      <!-- Close button -->
+      <button onclick="closeListingModal()" class="absolute top-2 right-2 bg-white rounded-full p-2 hover:bg-red-100">
+        <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
   </div>
 
-  <!-- JS Logic -->
+  <!-- JavaScript -->
   <script>
     const listings = [
       {
-        title: "Cozy Apartment in Downtown",
-        description: "A beautiful apartment close to all amenities in the heart of the city.",
-        price: "$120 / night",
-        mainImage: "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
-        thumb1: "https://images.unsplash.com/photo-1560448075-bb4de1123fa0?auto=format&fit=crop&w=400&q=60",
-        thumb2: "https://images.unsplash.com/photo-1565182999561-18d7dc61c393?auto=format&fit=crop&w=400&q=60",
-        host: "Hosted by Jane Doe",
-        address: "Downtown, Nairobi"
+        title: "Cozy Apartment - Kilimani",
+        location: "Kilimani, Nairobi",
+        price: "$120/night",
+        beds: 2,
+        wifi: true,
+        tv: true,
+        parking: false,
+        image: "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80"
       },
       {
-        title: "Modern Loft in City Center",
-        description: "Spacious loft with great views and modern design. Perfect for business travelers.",
-        price: "$150 / night",
-        mainImage: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
-        thumb1: "https://images.unsplash.com/photo-1590490350414-6a0c9ee0f450?auto=format&fit=crop&w=400&q=60",
-        thumb2: "https://images.unsplash.com/photo-1600585154340-be6161f99674?auto=format&fit=crop&w=400&q=60",
-        host: "Hosted by Mark Smith",
-        address: "Upper Hill, Nairobi"
+        title: "City View Loft - Westlands",
+        location: "Westlands, Nairobi",
+        price: "$160/night",
+        beds: 3,
+        wifi: true,
+        tv: true,
+        parking: true,
+        image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
       },
       {
-        title: "Beach House with Ocean View",
-        description: "Relax in this stunning beach house just steps from the ocean.",
-        price: "$220 / night",
-        mainImage: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80",
-        thumb1: "https://images.unsplash.com/photo-1590073242679-137dfe0c1baf?auto=format&fit=crop&w=400&q=60",
-        thumb2: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=400&q=60",
-        host: "Hosted by Clara Achieng",
-        address: "Diani Beach, Kenya"
+        title: "Diani Beach House",
+        location: "Diani, Mombasa",
+        price: "$250/night",
+        beds: 4,
+        wifi: true,
+        tv: false,
+        parking: true,
+        image: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
       }
     ];
 
     function openListingModal(index) {
-      const listing = listings[index];
-      document.getElementById("modalTitle").innerText = listing.title;
-      document.getElementById("modalDescription").innerText = listing.description;
-      document.getElementById("modalPrice").innerText = listing.price;
-      document.getElementById("modalMainImage").src = listing.mainImage;
-      document.getElementById("thumb1").src = listing.thumb1;
-      document.getElementById("thumb2").src = listing.thumb2;
-      document.getElementById("hostInfo").innerText = listing.host;
-      document.getElementById("modalAddress").innerText = listing.address;
+      const data = listings[index];
+      document.getElementById("modalImage").src = data.image;
+      document.getElementById("modalTitle").textContent = data.title;
+      document.getElementById("modalLocation").textContent = data.location;
+      document.getElementById("modalPrice").innerHTML = `<strong>Price:</strong> ${data.price}`;
+      document.getElementById("modalBeds").innerHTML = `<strong>Beds:</strong> ${data.beds}`;
+      document.getElementById("modalAmenities").innerHTML =
+        `<strong>Wi-Fi:</strong> ${data.wifi ? "✔️" : "❌"} | <strong>TV:</strong> ${data.tv ? "✔️" : "❌"} | <strong>Parking:</strong> ${data.parking ? "✔️" : "❌"}`;
       document.getElementById("listingModal").classList.remove("hidden");
     }
 
     function closeListingModal() {
       document.getElementById("listingModal").classList.add("hidden");
     }
-
-    function changeMainImage(src) {
-      document.getElementById("modalMainImage").src = src;
-    }
   </script>
+
 </body>
 </html>
