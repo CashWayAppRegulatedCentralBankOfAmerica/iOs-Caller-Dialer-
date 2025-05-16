@@ -1,42 +1,80 @@
-80 px-4 py-2 rounded-lg shadow text-sm font-medium text-gray-800"
-\></div> <!-- Close button --> <button
-       onclick="closeListingModal()"
-       class="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-red-100 transition"
-     > <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /> </svg> </button> <!-- Address bottom-left --> <div
-       id="modalAddress"
-       class="absolute bottom-3 left-3 bg-white bg-opacity-90 px-4 py-2 rounded-md text-sm text-gray-800 shadow"
-     ></div> </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airbnb Style Listings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-3xl font-bold mb-6">Available Listings</h1>
 
-```
-  <!-- Right: Thumbnails and Info -->
-  <div class="w-full md:w-72 p-6 flex flex-col justify-between">
-    <div>
-      <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
-      <p id="modalDescription" class="text-gray-700 text-sm mb-4"></p>
-      <div class="thumbs-container space-y-2">
-        <img
-          id="thumb1"
-          src=""
-          onclick="changeMainImage(this.src)"
-          class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition"
-        />
-        <img
-          id="thumb2"
-          src=""
-          onclick="changeMainImage(this.src)"
-          class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition"
-        />
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+    <!-- Listings generated from JS -->
+    <div class="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-lg transition" onclick="openListingModal(0)">
+      <img src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Cozy Apartment in Downtown</h3>
+        <p class="text-sm text-gray-600 mt-1">Downtown, Nairobi</p>
+        <p class="text-sm font-semibold text-green-700 mt-2">$120 / night</p>
       </div>
     </div>
-    <div class="mt-6">
-      <div class="text-gray-800 font-semibold text-lg" id="modalPrice"></div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-lg transition" onclick="openListingModal(1)">
+      <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Modern Loft in City Center</h3>
+        <p class="text-sm text-gray-600 mt-1">Upper Hill, Nairobi</p>
+        <p class="text-sm font-semibold text-green-700 mt-2">$150 / night</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-lg transition" onclick="openListingModal(2)">
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover" />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Beach House with Ocean View</h3>
+        <p class="text-sm text-gray-600 mt-1">Diani Beach, Kenya</p>
+        <p class="text-sm font-semibold text-green-700 mt-2">$220 / night</p>
+      </div>
     </div>
   </div>
-</div>
-```
 
+  <!-- Listing Modal -->
+  <div id="listingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl overflow-hidden shadow-lg w-full max-w-4xl relative flex flex-col md:flex-row">
+      <!-- Left: Main Image and Host -->
+      <div class="relative w-full md:w-2/3 h-96 md:h-auto">
+        <img id="modalMainImage" src="" class="w-full h-full object-cover" />
+        <!-- Host info top-left -->
+        <div id="hostInfo" class="absolute top-3 left-3 bg-white bg-opacity-90 px-4 py-2 rounded-md text-sm text-gray-800 shadow"></div>
+        <!-- Close button -->
+        <button onclick="closeListingModal()" class="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-red-100 transition">
+          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <!-- Address bottom-left -->
+        <div id="modalAddress" class="absolute bottom-3 left-3 bg-white bg-opacity-90 px-4 py-2 rounded-md text-sm text-gray-800 shadow"></div>
+      </div>
+
+      <!-- Right: Thumbnails and Info -->
+      <div class="w-full md:w-1/3 p-6 flex flex-col justify-between">
+        <div>
+          <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
+          <p id="modalDescription" class="text-gray-700 text-sm mb-4"></p>
+          <div class="thumbs-container space-y-2">
+            <img id="thumb1" src="" onclick="changeMainImage(this.src)" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition" />
+            <img id="thumb2" src="" onclick="changeMainImage(this.src)" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition" />
+          </div>
+        </div>
+        <div class="mt-6">
+          <div class="text-gray-800 font-semibold text-lg" id="modalPrice"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- Listings JS -->
   <script>
     const listings = [
       {
@@ -93,6 +131,5 @@
       document.getElementById("modalMainImage").src = src;
     }
   </script>
-
 </body>
 </html>
