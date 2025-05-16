@@ -1,120 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Booking with Calculator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Booking</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-900">
 
   <!-- Header -->
-  <header class="bg-blue-600 text-white p-4">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Booking.com</h1>
-      <nav class="space-x-4">
-        <a href="#" class="hover:underline">Stays</a>
-        <a href="#" class="hover:underline">Flights</a>
-      </nav>
-    </div>
+  <header class="bg-white shadow p-4">
+    <h1 class="text-2xl font-bold text-center">Modern 2BR Apartment in Kilimani</h1>
   </header>
 
-  <!-- Main -->
-  <main class="max-w-6xl mx-auto p-4 grid lg:grid-cols-3 gap-6">
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto mt-6 p-4 bg-white rounded shadow">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <!-- Hotel Info -->
-    <div class="lg:col-span-2 space-y-6">
-      <h2 class="text-3xl font-bold">Opal Stay Hotel</h2>
-      <div class="text-gray-600">⭐ 4.5 (1,200 reviews) · Nairobi</div>
-      <img src="https://source.unsplash.com/800x400/?hotel" class="rounded-lg w-full object-cover">
+      <!-- Image Gallery -->
+      <div class="md:col-span-2 space-y-4">
+        <img src="https://via.placeholder.com/800x400" alt="Property Image" class="w-full rounded-lg">
+        <div class="grid grid-cols-3 gap-2">
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+        </div>
+        <div class="mt-4">
+          <h2 class="text-xl font-semibold mb-2">Features</h2>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Wi-Fi</li>
+            <li>Smart TV</li>
+            <li>Secure Parking</li>
+            <li>Fully Equipped Kitchen</li>
+          </ul>
+        </div>
+        <div class="mt-4">
+          <h2 class="text-xl font-semibold mb-2">Reviews</h2>
+          <p>⭐️⭐️⭐️⭐️☆ (4.5/5) - 120 reviews</p>
+          <p class="mt-2 text-sm text-gray-700">"Wonderful stay, very clean and cozy. Would book again!"</p>
+        </div>
+      </div>
 
-      <div class="bg-white p-4 rounded shadow mt-6">
-        <h3 class="text-xl font-semibold mb-4">Standard Double Room - $60/night</h3>
-        <p>Enjoy a cozy double room with Wi-Fi, AC and breakfast.</p>
+      <!-- Booking Sidebar -->
+      <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <form id="bookingForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Select Dates</label>
+            <input type="text" id="dateRange" placeholder="Choose dates" required class="w-full border p-2 rounded">
+          </div>
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Reserve Now</button>
+        </form>
+        <div class="mt-4">
+          <h3 class="font-bold text-lg">Host: Tabitha Nelima</h3>
+          <p class="text-sm text-gray-600">Superhost · Joined in 2022</p>
+        </div>
       </div>
     </div>
-
-    <!-- Sidebar -->
-    <aside class="bg-white p-4 rounded shadow h-fit lg:sticky top-4">
-      <h4 class="text-xl font-bold mb-4">Your Stay</h4>
-      <form id="bookingForm" class="space-y-3">
-        <div>
-          <label class="block text-sm font-medium">Check-in</label>
-          <input type="date" id="checkIn" required class="w-full border p-2 rounded">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Check-out</label>
-          <input type="date" id="checkOut" required class="w-full border p-2 rounded">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Guests</label>
-          <select class="w-full border p-2 rounded">
-            <option>1 Adult</option>
-            <option>2 Adults</option>
-          </select>
-        </div>
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-          Reserve Now
-        </button>
-        <p class="text-sm text-gray-500 text-center">You won't be charged yet</p>
-      </form>
-    </aside>
   </main>
 
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full text-center">
-      <h2 class="text-xl font-bold mb-4">Reservation Summary</h2>
-      <p id="modalContent" class="mb-4 text-gray-700 text-sm leading-relaxed"></p>
-      <button onclick="closeModal()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+  <!-- Payment Modal -->
+  <div id="payModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+      <h2 class="text-xl font-semibold mb-4 text-green-700">Total Payment</h2>
+      <p id="modalTotal" class="text-lg font-bold text-gray-800 mb-2">$0</p>
+      <p class="text-sm text-gray-600 mb-4">Please pay via Till Number <span class="font-semibold">0100110103</span></p>
+      <button id="closeModal" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
         Close
       </button>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-200 text-center py-4 mt-10 text-sm text-gray-600">
-    © 2025 Booking Clone · Opal Stay Hotel
-  </footer>
-
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
-    const form = document.getElementById('bookingForm');
-    const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modalContent');
+    const bookedDates = ["2025-05-19", "2025-05-22", "2025-05-25", "2025-05-30"];
 
-    const pricePerNight = 60;
-    const tillNumber = '123456';
-    const hotelName = 'Opal Stay Hotel';
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const checkIn = new Date(document.getElementById('checkIn').value);
-      const checkOut = new Date(document.getElementById('checkOut').value);
-
-      if (isNaN(checkIn) || isNaN(checkOut) || checkOut <= checkIn) {
-        alert("Please select valid check-in and check-out dates.");
-        return;
+    flatpickr("#dateRange", {
+      mode: "range",
+      minDate: "today",
+      disable: bookedDates,
+      dateFormat: "Y-m-d",
+      onClose: function(selectedDates) {
+        if (selectedDates.length === 2) {
+          const oneDay = 24 * 60 * 60 * 1000;
+          const nights = Math.round(Math.abs((selectedDates[1] - selectedDates[0]) / oneDay));
+          localStorage.setItem("bookingNights", nights);
+        }
       }
-
-      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-      const total = nights * pricePerNight;
-
-      modalContent.innerHTML = `
-        <strong>${nights}</strong> night(s) at <strong>$${pricePerNight}/night</strong><br>
-        <strong>Total: $${total}</strong><br><br>
-        Please make payment to:<br>
-        <strong>Till Number: ${tillNumber}</strong><br>
-        <strong>Hotel: ${hotelName}</strong><br><br>
-        After payment, kindly present your transaction code at check-in.
-      `;
-
-      modal.classList.remove('hidden');
     });
 
-    function closeModal() {
-      modal.classList.add('hidden');
-    }
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nights = parseInt(localStorage.getItem("bookingNights")) || 0;
+      if (nights === 0) return alert("Please select valid check-in and check-out dates.");
+      const pricePerNight = 60;
+      const total = nights * pricePerNight;
+      document.getElementById("modalTotal").innerText = `$${total} for ${nights} night(s)`;
+      document.getElementById("payModal").classList.remove("hidden");
+    });
+
+    document.getElementById("closeModal").addEventListener("click", function() {
+      document.getElementById("payModal").classList.add("hidden");
+    });
   </script>
 </body>
 </html>
