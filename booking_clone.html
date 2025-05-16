@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Booking</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4">
+    <h1 class="text-2xl font-bold text-center">Modern 2BR Apartment in Kilimani</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto mt-6 p-4 bg-white rounded shadow">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Image Gallery -->
+      <div class="md:col-span-2 space-y-4">
+        <img src="https://via.placeholder.com/800x400" alt="Property Image" class="w-full rounded-lg">
+        <div class="grid grid-cols-3 gap-2">
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+          <img src="https://via.placeholder.com/150" class="w-full rounded" />
+        </div>
+        <div class="mt-4">
+          <h2 class="text-xl font-semibold mb-2">Features</h2>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Wi-Fi</li>
+            <li>Smart TV</li>
+            <li>Secure Parking</li>
+            <li>Fully Equipped Kitchen</li>
+          </ul>
+        </div>
+        <div class="mt-4">
+          <h2 class="text-xl font-semibold mb-2">Reviews</h2>
+          <p>⭐️⭐️⭐️⭐️☆ (4.5/5) - 120 reviews</p>
+          <p class="mt-2 text-sm text-gray-700">"Wonderful stay, very clean and cozy. Would book again!"</p>
+        </div>
+      </div>
+
+      <!-- Booking Sidebar -->
+      <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <form id="bookingForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Select Dates</label>
+            <input type="text" id="dateRange" placeholder="Choose dates" required class="w-full border p-2 rounded">
+          </div>
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Reserve Now</button>
+        </form>
+        <div class="mt-4">
+          <h3 class="font-bold text-lg">Host: Tabitha Nelima</h3>
+          <p class="text-sm text-gray-600">Superhost · Joined in 2022</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Payment Modal -->
+  <div id="payModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+      <h2 class="text-xl font-semibold mb-4 text-green-700">Total Payment</h2>
+      <p id="modalTotal" class="text-lg font-bold text-gray-800 mb-2">$0</p>
+      <p class="text-sm text-gray-600 mb-4">Please pay via Till Number <span class="font-semibold">0100110103</span></p>
+      <button id="closeModal" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    const bookedDates = ["2025-05-19", "2025-05-22", "2025-05-25", "2025-05-30"];
+
+    flatpickr("#dateRange", {
+      mode: "range",
+      minDate: "today",
+      disable: bookedDates,
+      dateFormat: "Y-m-d",
+      onClose: function(selectedDates) {
+        if (selectedDates.length === 2) {
+          const oneDay = 24 * 60 * 60 * 1000;
+          const nights = Math.round(Math.abs((selectedDates[1] - selectedDates[0]) / oneDay));
+          localStorage.setItem("bookingNights", nights);
+        }
+      }
+    });
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nights = parseInt(localStorage.getItem("bookingNights")) || 0;
+      if (nights === 0) return alert("Please select valid check-in and check-out dates.");
+      const pricePerNight = 60;
+      const total = nights * pricePerNight;
+      document.getElementById("modalTotal").innerText = `$${total} for ${nights} night(s)`;
+      document.getElementById("payModal").classList.remove("hidden");
+    });
+
+    document.getElementById("closeModal").addEventListener("click", function() {
+      document.getElementById("payModal").classList.add("hidden");
+    });
+  </script>
+</body>
+</html>
