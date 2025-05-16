@@ -1,293 +1,674 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" >
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Airbnb Clone Listing Detail Modal</title>
+  <title>Airbnb Listings Clone</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .modal-bg {
-      background-color: rgba(0, 0, 0, 0.6);
+    /* Scroll container for vertical thumbnails */
+    .thumbs-container {
+      height: 12rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #f87171 transparent; /* Tailwind red-400 */
     }
-    .vertical-gallery::-webkit-scrollbar {
-      width: 8px;
+    .thumbs-container::-webkit-scrollbar {
+      width: 6px;
     }
-    .vertical-gallery::-webkit-scrollbar-thumb {
-      background-color: rgba(0,0,0,0.3);
-      border-radius: 4px;
+    .thumbs-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .thumbs-container::-webkit-scrollbar-thumb {
+      background-color: #f87171;
+      border-radius: 3px;
     }
   </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50 font-sans">
 
-<!-- Listings - Example -->
-<div class="p-8 max-w-5xl mx-auto">
-  <h1 class="text-4xl font-bold mb-8">Listings</h1>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div
-      class="bg-white rounded-lg shadow cursor-pointer overflow-hidden"
-      onclick="openListingDetail(1)"
+  <!-- Header without search bar -->
+  <header class="bg-white shadow p-4 sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="text-3xl font-bold text-red-600 cursor-pointer select-none">Nova Stays KE</div>
+    </div>
+  </header>
+
+  <!-- Filters Bar -->
+  <section class="max-w-7xl mx-auto px-4 py-6 flex flex-wrap gap-4 bg-white shadow rounded-md mt-6">
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Price</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Type of Place</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">Rooms and Beds</button>
+    <button class="px-4 py-2 border rounded-full hover:bg-red-50 transition">More Filters</button>
+  </section>
+
+  <!-- Listings Grid -->
+  <main class="max-w-7xl mx-auto px-4 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+    <!-- Single Property Card (Add data attributes for modal info) -->
+    <article
+      class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
+      onclick="openListingModal(0)"
       >
       <img
-        src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=600&q=80"
-        alt="Listing 1"
+        src="https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80"
+        alt="Cozy Apartment"
         class="w-full h-48 object-cover"
       />
       <div class="p-4">
-        <h2 class="text-xl font-semibold mb-2">Cozy Apartment in Downtown</h2>
-        <p class="text-red-600 font-bold">$120 / night</p>
+        <h3 class="text-lg font-semibold mb-1">Cozy Apartment in Downtown</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.9 (120)
+        </div>
+        <div class="font-semibold text-gray-900">$120 <span class="font-normal text-gray-600">/ night</span></div>
       </div>
-    </div>
-  </div>
-</div>
+    </article>
 
-<!-- Listing Detail Modal -->
-<div id="listingModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-6 overflow-auto">
-  <div class="bg-white rounded-lg shadow-xl max-w-5xl w-full flex flex-col md:flex-row relative">
-    
-    <!-- Host info top-left corner inside modal -->
-    <div class="absolute top-4 left-4 flex items-center space-x-3 bg-white rounded-full p-2 shadow-md z-20">
-      <img id="hostAvatar" src="" alt="Host avatar" class="w-12 h-12 rounded-full object-cover" />
-      <div>
-        <p id="hostCountry" class="text-sm font-semibold text-gray-700"></p>
-        <p id="hostSince" class="text-xs text-gray-500"></p>
+    <article
+      class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
+      onclick="openListingModal(1)"
+      >
+      <img
+        src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
+        alt="Modern Loft"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Modern Loft in City Center</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.8 (87)
+        </div>
+        <div class="font-semibold text-gray-900">$150 <span class="font-normal text-gray-600">/ night</span></div>
       </div>
-    </div>
+    </article>
 
-    <!-- Left side: info -->
-    <div class="p-6 flex-1 pt-16"> <!-- Added padding top for host info -->
-      <h2 id="modalTitle" class="text-3xl font-bold mb-4">Listing Title</h2>
+    <article
+      class="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
+      onclick="openListingModal(2)"
+      >
+      <img
+        src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80"
+        alt="Beach House"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold mb-1">Beach House with Ocean View</h3>
+        <div class="flex items-center text-sm text-gray-600 mb-2">
+          <svg class="w-4 h-4 text-red-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.287 3.973c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.388 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.973a1 1 0 00-.364-1.118L3.607 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z"/></svg>
+          4.7 (65)
+        </div>
+        <div class="font-semibold text-gray-900">$220 <span class="font-normal text-gray-600">/ night</span></div>
+      </div>
+    </article>
 
-      <p id="modalPrice" class="text-2xl font-semibold text-red-600 mb-4">$120 / night</p>
+  </main>
 
-      <!-- Main image with amenities below -->
-      <div>
+  <!-- Listing Modal -->
+  <div
+    id="listingModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-6 hidden z-50 overflow-auto"
+    >
+    <div
+      class="bg-white max-w-5xl w-full rounded-xl shadow-lg relative flex flex-col md:flex-row overflow-hidden"
+      >
+      <!-- Left: Main Image + Details -->
+      <div class="flex-1 relative bg-gray-100">
         <img
-          id="mainImage"
+          id="modalMainImage"
           src=""
           alt="Listing Image"
-          class="w-full h-64 object-cover rounded-lg mb-4"
+          class="w-full h-96 object-cover"
         />
-        <!-- Amenities row -->
+        <!-- Host info top-left -->
         <div
-          id="amenities"
-          class="flex flex-wrap gap-6 text-gray-600 text-sm"
-          style="max-width: 600px;"
-        >
-          <!-- Insert amenities icons and text dynamically -->
+          id="hostInfo"
+          class="absolute top-3 left-3 bg-white bg-opacity-90 p-3 rounded-lg flex items-center space-x-3 shadow"
+          >
+          <img
+            id="hostImage"
+            src=""
+            alt="Host"
+            class="w-12 h-12 rounded-full object-cover border border-gray-300"
+          />
+          <div>
+            <p id="hostCountry" class="text-sm font-semibold"></p>
+            <p id="hostDuration" class="text-xs text-gray-500"></p>
+          </div>
+        </div>
+        <!-- Vertical Thumbnails on right -->
+        <div
+          id="verticalThumbs"
+          class="thumbs-container absolute top-0 right-0 h-full w-20 bg-white bg-opacity-90 flex flex-col space-y-2 p-2 border-l border-gray-200 overflow-y-auto"
+          >
+          <!-- thumbnails inserted here dynamically -->
         </div>
       </div>
 
-      <p id="modalDescription" class="my-6 text-gray-700 leading-relaxed"></p>
+      <!-- Right side: Details -->
+      <div class="flex-1 p-6 overflow-auto max-h-[38rem] flex flex-col justify-between">
+        <div>
+          <h2 id="modalTitle" class="text-2xl font-bold mb-3"></h2>
 
-      <!-- Reviews -->
-      <div id="modalReviews" class="space-y-4 mb-6">
-        <h3 class="text-xl font-semibold mb-2">Reviews</h3>
-        <!-- Reviews inserted dynamically -->
-      </div>
+          <!-- Amenities -->
+          <div class="flex flex-wrap gap-4 mb-4 text-gray-700 text-sm">
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h1v11h16V10h1" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 10V6a5 5 0 0110 0v4" />
+              </svg>
+              <span>2 Beds</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21v-7" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-7" />
+              </svg>
+              <span>1 Bath</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 11h14" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 11v7" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 18v-7" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 18v-7" />
+              </svg>
+              <span>Max 4 Guests</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 5a2 2 0 012-2h8a2 2 0 012 2v3H4V5zM3 10h14v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5z" />
+              </svg>
+              <span>Kitchen</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h8m-8 4h6" />
+              </svg>
+              <span>WiFi</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 10.5v3a3.5 3.5 0 01-7 0v-3a3.5 3.5 0 017 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v3" />
+              </svg>
+              <span>TV</span>
+            </div>
+            <div class="flex items-center space-x-1">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Swimming Pool</span>
+            </div>
+          </div>
 
-      <!-- Review submission form -->
-      <form id="reviewForm" class="space-y-4">
-        <h3 class="text-lg font-semibold">Add your review</h3>
-        <textarea
-          id="reviewText"
-          rows="3"
-          class="w-full border rounded p-2"
-          placeholder="Write your review here..."
-          required
-        ></textarea>
+          <p id="modalDescription" class="text-gray-700 mb-4"></p>
+
+          <h3 class="text-xl font-semibold mb-2">Reviews</h3>
+          <div id="reviewsContainer" class="max-h-36 overflow-y-auto mb-4 space-y-2 px-2">
+            <!-- Reviews go here -->
+          </div>
+
+          <!-- Add Review Form -->
+          <form id="reviewForm" class="space-y-3" onsubmit="return handleReviewSubmit(event)">
+            <textarea
+              id="reviewInput"
+              class="w-full border rounded-md p-2"
+              rows="3"
+              placeholder="Add your review here..."
+              required
+            ></textarea>
+            <button
+              type="submit"
+              class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+            >
+              Submit Review
+            </button>
+          </form>
+        </div>
+
+        <div class="mt-6 text-right text-2xl font-bold text-gray-900">
+          <span id="modalPrice"></span> <span class="text-base font-normal text-gray-600">/ night</span>
+        </div>
+
+        <!-- Close button -->
         <button
-          type="submit"
-          class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition"
+          onclick="closeListingModal()"
+          class="absolute top-3 right-3 text-gray-600 hover:text-red-600 text-3xl font-bold"
+          aria-label="Close Modal"
         >
-          Submit Review
+          &times;
         </button>
-      </form>
-    </div>
-
-    <!-- Right side: vertical gallery -->
-    <div class="flex flex-col border-l border-gray-200 w-full md:w-96 p-4">
-
-      <div id="galleryMain" class="h-64 mb-4 rounded-lg overflow-hidden">
-        <img src="" alt="Listing Image" id="mainImageSide" class="w-full h-full object-cover rounded-lg" />
       </div>
-
-      <div
-        id="galleryThumbnails"
-        class="vertical-gallery flex flex-col gap-2 overflow-y-auto"
-        style="max-height: 320px;"
-      >
-        <!-- Thumbnails inserted dynamically -->
-      </div>
-
-      <button
-        aria-label="Close modal"
-        onclick="closeListingDetail()"
-        class="mt-auto bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded text-center"
-      >
-        Close
-      </button>
     </div>
   </div>
-</div>
 
-<script>
-  // Sample listing data extended with amenities and host info
-  const listingsData = {
-    1: {
-      title: "Cozy Apartment in Downtown",
-      price: 120,
-      description:
-        "Enjoy your stay at this cozy downtown apartment with modern amenities, fast WiFi, and easy access to restaurants and nightlife.",
-      images: [
-        "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1560448070-23eec17863e0?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1549187774-b4e9b0445b70?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1505692794409-54a362f7e517?auto=format&fit=crop&w=800&q=80"
-      ],
-      reviews: [
-        { author: "Jane Doe", text: "Amazing stay! The apartment was clean and in a great location." },
-        { author: "John Smith", text: "Highly recommend! Great value for the price." }
-      ],
-      amenities: {
-        baths: 1,
+  <script>
+    // Listings data (images, host info, details, reviews)
+    const listings = [
+      {
+        title: "Cozy Apartment in Downtown",
+        price: 120,
+        description: "A cozy, warm apartment located in the heart of downtown, close to all amenities.",
+        images: [
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80",
+        ],
+        host: {
+          image: "https://randomuser.me/api/portraits/women/44.jpg",
+          country: "Kenya",
+          duration: "Hosting for 2 years",
+        },
         beds: 2,
-        maxVisitors: 4,
+        baths: 1,
+        guests: 4,
         kitchen: true,
         wifi: true,
         tv: true,
-        swimmingPool: false
+        pool: true,
+        reviews: [
+          { user: "John", comment: "Great place, very cozy and clean." },
+          { user: "Samantha", comment: "Perfect location and lovely host." },
+        ],
       },
-      host: {
-        avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-        country: "Kenya",
-        hostingSince: "Since 2019"
-      }
-    }
-  };
+      {
+        title: "Modern Loft in City Center",
+        price: 150,
+        description: "Experience the modern lifestyle in this loft right in the city center.",
+        images: [
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1533777324565-a04df0e527a9?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80",
+        ],
+        host: {
+          image: "https://randomuser.me/api/portraits/men/32.jpg",
+          country: "USA",
+          duration: "Hosting for 5 years",
+        },
+        beds: 3,
+        baths: 2,
+        guests: 6,
+        kitchen: true,
+        wifi: true,
+        tv: true,
+        pool: false,
+        reviews: [
+          { user: "Liam", comment: "Stylish and comfortable, loved my stay." },
+          { user: "Emma", comment: "Great host and easy check-in." },
+        ],
+      },
+      {
+        title: "Beach House with Ocean View",
+        price: 220,
+        description: "Relax and enjoy breathtaking ocean views in this spacious beach house.",
+        images: [
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+        ],
+        host: {
+          image: "https://randomuser.me/api/portraits/women/68.jpg",
+          country: "Australia",
+          duration: "Hosting for 3 years",
+        },
+        beds: 4,
+        baths: 3,
+        guests: 8,
+        kitchen: true,
+        wifi: true,
+        tv: true,
+        pool: true,
+        reviews: [
+          { user: "Olivia", comment: "Amazing views and very relaxing." },
+          { user: "Noah", comment: "Perfect getaway spot for families." },
+        ],
+      },
+    ];
 
-  // Amenities icons HTML map
-  const amenityIcons = {
-    baths: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a6 6 0 11-12 0 6 6 0 0112 0z" />
-           </svg>`,
-    beds: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18v7H3v-7zM7 10V6a2 2 0 012-2h6a2 2 0 012 2v4" />
-           </svg>`,
-    visitors: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6h6m-9-4a4 4 0 114 4m0-10a4 4 0 11-4 4m4-10v6" />
-               </svg>`,
-    kitchen: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a3 3 0 00-6 0v2m6 0v2a3 3 0 006 0v-2m-6 0v-4a3 3 0 00-6 0v4m6 0v2m3-6h3m-3 4h3" />
-              </svg>`,
-    wifi: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 18a3.5 3.5 0 017 0m-7-3a7 7 0 0114 0m-14-3a10 10 0 0120 0" />
-           </svg>`,
-    tv: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 12h20M5 16h14M9 20h6" />
-         </svg>`,
-    swimmingPool: `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 16c-1.5-2-4-3-6-3s-4.5 1-6 3m0 0v1a1 1 0 001 1h10a1 1 0 001-1v-1" />
-                   </svg>`
-  };
+    const listingsContainer = document.getElementById("listingsContainer");
+    const listingModal = document.getElementById("listingModal");
+    const modalMainImage = document.getElementById("modalMainImage");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalPrice = document.getElementById("modalPrice");
+    const hostImage = document.getElementById("hostImage");
+    const hostCountry = document.getElementById("hostCountry");
+    const hostDuration = document.getElementById("hostDuration");
+    const verticalThumbs = document.getElementById("verticalThumbs");
+    const reviewsContainer = document.getElementById("reviewsContainer");
+    const reviewForm = document.getElementById("reviewForm");
+    const reviewInput = document.getElementById("reviewInput");
 
-  // Open modal with listing data
-  function openListingDetail(id) {
-    const listing = listingsData[id];
-    if (!listing) return;
+    let currentListingIndex = null;
 
-    // Show modal
-    const modal = document.getElementById("listingModal");
-    modal.style.display = "flex";
+    // Create listing cards
+    function createListingCards() {
+      listings.forEach((listing, index) => {
+        const card = document.createElement("article");
+        card.className = "listing-card border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition";
 
-    // Populate text info
-    document.getElementById("modalTitle").textContent = listing.title;
-    document.getElementById("modalPrice").textContent = `$${listing.price} / night`;
-    document.getElementById("modalDescription").textContent = listing.description;
+        card.innerHTML = `
+          <img src="${listing.images[0]}" alt="${listing.title}" class="w-full h-48 object-cover" />
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-1">${listing.title}</h3>
+            <p class="text-gray-600 mb-2">${listing.description}</p>
+            <p class="text-red-600 font-bold text-xl">$${listing.price} / night</p>
+          </div>
+        `;
 
-    // Host info
-    document.getElementById("hostAvatar").src = listing.host.avatar;
-    document.getElementById("hostCountry").textContent = listing.host.country;
-    document.getElementById("hostSince").textContent = listing.host.hostingSince;
+        card.addEventListener("click", () => openListingModal(index));
 
-    // Main image left side
-    document.getElementById("mainImage").src = listing.images[0];
-    document.getElementById("mainImage").alt = listing.title;
-
-    // Main image right side (gallery main)
-    const mainSideImg = document.getElementById("mainImageSide");
-    mainSideImg.src = listing.images[0];
-    mainSideImg.alt = listing.title;
-
-    // Amenities
-    const amenitiesDiv = document.getElementById("amenities");
-    amenitiesDiv.innerHTML = ""; // Clear
-    if (listing.amenities.baths !== undefined) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="Bathrooms">${amenityIcons.baths} ${listing.amenities.baths} Bath${listing.amenities.baths > 1 ? "s" : ""}</div>`;
-    }
-    if (listing.amenities.beds !== undefined) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="Beds">${amenityIcons.beds} ${listing.amenities.beds} Bed${listing.amenities.beds > 1 ? "s" : ""}</div>`;
-    }
-    if (listing.amenities.maxVisitors !== undefined) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="Max Visitors">${amenityIcons.visitors} ${listing.amenities.maxVisitors} Visitors</div>`;
-    }
-    if (listing.amenities.kitchen) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="Kitchen">${amenityIcons.kitchen} Kitchen</div>`;
-    }
-    if (listing.amenities.wifi) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="WiFi">${amenityIcons.wifi} WiFi</div>`;
-    }
-    if (listing.amenities.tv) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="TV">${amenityIcons.tv} TV</div>`;
-    }
-    if (listing.amenities.swimmingPool) {
-      amenitiesDiv.innerHTML += `<div class="flex items-center" title="Swimming Pool">${amenityIcons.swimmingPool} Swimming Pool</div>`;
-    }
-
-    // Reviews
-    const reviewsDiv = document.getElementById("modalReviews");
-    reviewsDiv.innerHTML = `<h3 class="text-xl font-semibold mb-2">Reviews</h3>`;
-    listing.reviews.forEach((rev) => {
-      const reviewEl = document.createElement("div");
-      reviewEl.classList.add("border-b", "border-gray-200", "pb-2");
-      reviewEl.innerHTML = `
-        <p class="font-semibold">${rev.author}</p>
-        <p class="text-gray-700">${rev.text}</p>
-      `;
-      reviewsDiv.appendChild(reviewEl);
-    });
-
-    // Build gallery thumbnails vertical scroll
-    const galleryThumbs = document.getElementById("galleryThumbnails");
-    galleryThumbs.innerHTML = "";
-    listing.images.forEach((img, i) => {
-      const thumb = document.createElement("img");
-      thumb.src = img;
-      thumb.alt = `${listing.title} image ${i + 1}`;
-      thumb.className = "w-full h-20 object-cover rounded cursor-pointer border border-gray-300 hover:border-red-600 transition";
-      thumb.addEventListener("click", () => {
-        mainSideImg.src = img;
-        mainSideImg.alt = `${listing.title} image ${i + 1}`;
-        document.getElementById("mainImage").src = img;
-        document.getElementById("mainImage").alt = `${listing.title} image ${i + 1}`;
+        listingsContainer.appendChild(card);
       });
-      galleryThumbs.appendChild(thumb);
+    }
+
+    // Open modal and populate data
+    function openListingModal(index) {
+      currentListingIndex = index;
+      const listing = listings[index];
+
+      modalMainImage.src = listing.images[0];
+      modalTitle.textContent = listing.title;
+      modalDescription.textContent = listing.description;
+      modalPrice.textContent = `$${listing.price}`;
+      hostImage.src = listing.host.image;
+      hostCountry.textContent = listing.host.country;
+      hostDuration.textContent = listing.host.duration;
+
+      // Clear previous thumbnails and reviews
+      verticalThumbs.innerHTML = "";
+      reviewsContainer.innerHTML = "";
+
+      // Create thumbnails
+      listing.images.forEach((imgSrc, idx) => {
+        const thumb = document.createElement("img");
+        thumb.src = imgSrc;
+        thumb.className = "w-16 h-16 object-cover rounded cursor-pointer border border-gray-300";
+        if (idx === 0) {
+          thumb.classList.add("border-red-600");
+        }
+        thumb.addEventListener("click", () => {
+          modalMainImage.src = imgSrc;
+          // Update active thumbnail border
+          Array.from(verticalThumbs.children).forEach(child =>
+            child.classList.remove("border-red-600")
+          );
+          thumb.classList.add("border-red-600");
+        });
+        verticalThumbs.appendChild(thumb);
+      });
+
+      // Populate reviews
+      listing.reviews.forEach(review => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.className = "border rounded p-2 bg-gray-50";
+        reviewDiv.innerHTML = `<strong>${review.user}:</strong> ${review.comment}`;
+        reviewsContainer.appendChild(reviewDiv);
+      });
+
+      reviewInput.value = "";
+
+      listingModal.classList.remove("hidden");
+    }
+
+    // Close modal
+    function closeListingModal() {
+      listingModal.classList.add("hidden");
+    }
+
+    // Handle review submission
+    function handleReviewSubmit(event) {
+      event.preventDefault();
+      const comment = reviewInput.value.trim();
+      if (!comment) return;
+
+      const newReview = {
+        user: "Anonymous",
+        comment,
+      };
+
+      // Add review to current listing
+      listings[currentListingIndex].reviews.push(newReview);
+
+      // Add review to the modal UI
+      const reviewDiv = document.createElement("div");
+      reviewDiv.className = "border rounded p-2 bg-gray-50";
+      reviewDiv.innerHTML = `<strong>${newReview.user}:</strong> ${newReview.comment}`;
+      reviewsContainer.appendChild(reviewDiv);
+
+      reviewInput.value = "";
+    }
+
+    // Initialize
+    createListingCards();
+  </script>
+</body>
+</html>
+  
+Here is a fully functional Airbnb-style vacation rental listing page with a modal popup for details, multiple images with vertical thumbnails, host info, reviews, and a form to add new reviews. It uses Tailwind CSS for styling and plain JavaScript for logic:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Airbnb-Style Vacation Rentals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <main class="max-w-7xl mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Vacation Rentals</h1>
+    <section id="listingsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Listing cards inserted here -->
+    </section>
+  </main>
+
+  <!-- Listing Modal -->
+  <div id="listingModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto flex flex-col md:flex-row">
+      <!-- Left: Main Image and Thumbnails -->
+      <div class="flex flex-col md:flex-row p-4 gap-4 flex-1">
+        <img id="modalMainImage" src="" alt="Listing Image" class="rounded-lg object-cover w-full md:w-[500px] h-[350px]" />
+        <div id="verticalThumbs" class="flex md:flex-col gap-2 mt-2 md:mt-0 md:ml-4 overflow-y-auto max-h-[350px]">
+          <!-- Thumbnails inserted here -->
+        </div>
+      </div>
+      <!-- Right: Details -->
+      <div class="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto">
+        <header>
+          <h2 id="modalTitle" class="text-2xl font-semibold"></h2>
+          <p id="modalDescription" class="mt-2 text-gray-700"></p>
+          <p id="modalPrice" class="mt-2 text-red-600 font-bold text-xl"></p>
+        </header>
+
+        <section class="flex items-center gap-4 border-t pt-4">
+          <img id="hostImage" src="" alt="Host" class="w-16 h-16 rounded-full object-cover" />
+          <div>
+            <p id="hostCountry" class="font-medium"></p>
+            <p id="hostDuration" class="text-sm text-gray-500"></p>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="font-semibold mb-2">Reviews</h3>
+          <div id="reviewsContainer" class="space-y-2 max-h-40 overflow-y-auto bg-gray-50 p-2 rounded border"></div>
+        </section>
+
+        <form id="reviewForm" class="flex gap-2" autocomplete="off">
+          <input id="reviewInput" type="text" placeholder="Write a review..." class="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600" required />
+          <button type="submit" class="bg-red-600 text-white px-4 rounded hover:bg-red-700 transition">Add</button>
+        </form>
+
+        <button onclick="closeListingModal()" class="mt-4 self-end text-gray-500 hover:text-gray-800">Close ✕</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const listings = [
+      {
+        title: "Cozy Mountain Cabin",
+        description: "Enjoy the serenity of the mountains in this cozy cabin with stunning views.",
+        price: 150,
+        images: [
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1472224371017-08d4e3d6c9cc?auto=format&fit=crop&w=800&q=80"
+        ],
+        host: {
+          image: "https://randomuser.me/api/portraits/women/44.jpg",
+          country: "USA",
+          duration: "Hosting for 5 years"
+        },
+        beds: 3,
+        baths: 2,
+        guests: 6,
+        kitchen: true,
+        wifi: true,
+        tv: true,
+        pool: false,
+        reviews: [
+          { user: "Alice", comment: "Lovely place with amazing views!" },
+          { user: "Bob", comment: "Very cozy and well-equipped." }
+        ]
+      },
+      {
+        title: "Beachfront Villa",
+        description: "Step out onto the sandy beach from this luxurious villa with a private pool.",
+        price: 350,
+        images: [
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1501183638714-9f3fca6e9a8c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+        ],
+        host: {
+          image: "https://randomuser.me/api/portraits/men/75.jpg",
+          country: "Spain",
+          duration: "Hosting for 2 years"
+        },
+        beds: 5,
+        baths: 4,
+        guests: 10,
+        kitchen: true,
+        wifi: true,
+        tv: true,
+        pool: true,
+        reviews: [
+          { user: "Charlie", comment: "Perfect vacation spot for families." },
+          { user: "Dana", comment: "The private pool was incredible!" }
+        ]
+      }
+    ];
+
+    const listingsContainer = document.getElementById("listingsContainer");
+    const listingModal = document.getElementById("listingModal");
+    const modalMainImage = document.getElementById("modalMainImage");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalPrice = document.getElementById("modalPrice");
+    const hostImage = document.getElementById("hostImage");
+    const hostCountry = document.getElementById("hostCountry");
+    const hostDuration = document.getElementById("hostDuration");
+    const verticalThumbs = document.getElementById("verticalThumbs");
+    const reviewsContainer = document.getElementById("reviewsContainer");
+    const reviewForm = document.getElementById("reviewForm");
+    const reviewInput = document.getElementById("reviewInput");
+
+    let currentListingIndex = null;
+
+    function createListingCards() {
+      listings.forEach((listing, index) => {
+        const card = document.createElement("article");
+        card.className = "listing-card border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition bg-white";
+
+        card.innerHTML = `
+          <img src="${listing.images[0]}" alt="${listing.title}" class="w-full h-48 object-cover" />
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-1">${listing.title}</h3>
+            <p class="text-gray-600 mb-2 truncate">${listing.description}</p>
+            <p class="text-red-600 font-bold text-xl">$${listing.price} / night</p>
+          </div>
+        `;
+
+        card.addEventListener("click", () => openListingModal(index));
+        listingsContainer.appendChild(card);
+      });
+    }
+
+    function openListingModal(index) {
+      currentListingIndex = index;
+      const listing = listings[index];
+
+      modalMainImage.src = listing.images[0];
+      modalTitle.textContent = listing.title;
+      modalDescription.textContent = listing.description;
+      modalPrice.textContent = `$${listing.price} / night`;
+      hostImage.src = listing.host.image;
+      hostCountry.textContent = listing.host.country;
+      hostDuration.textContent = listing.host.duration;
+
+      // Clear previous thumbnails and reviews
+      verticalThumbs.innerHTML = "";
+      reviewsContainer.innerHTML = "";
+
+      // Create thumbnails
+      listing.images.forEach((imgSrc, idx) => {
+        const thumb = document.createElement("img");
+        thumb.src = imgSrc;
+        thumb.className = "w-16 h-16 object-cover rounded cursor-pointer border border-gray-300";
+        if (idx === 0) thumb.classList.add("border-red-600");
+        thumb.addEventListener("click", () => {
+          modalMainImage.src = imgSrc;
+          // Update active thumbnail border
+          Array.from(verticalThumbs.children).forEach(child => child.classList.remove("border-red-600"));
+          thumb.classList.add("border-red-600");
+        });
+        verticalThumbs.appendChild(thumb);
+      });
+
+      // Populate reviews
+      listing.reviews.forEach(review => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.className = "border rounded p-2 bg-gray-50";
+        reviewDiv.innerHTML = `<strong>${review.user}:</strong> ${review.comment}`;
+        reviewsContainer.appendChild(reviewDiv);
+      });
+
+      reviewInput.value = "";
+      listingModal.classList.remove("hidden");
+    }
+
+    function closeListingModal() {
+      listingModal.classList.add("hidden");
+    }
+
+    reviewForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const comment = reviewInput.value.trim();
+      if (!comment) return;
+
+      const newReview = { user: "Anonymous", comment };
+      listings[currentListingIndex].reviews.push(newReview);
+
+      const reviewDiv = document.createElement("div");
+      reviewDiv.className = "border rounded p-2 bg-gray-50";
+      reviewDiv.innerHTML = `<strong>${newReview.user}:</strong> ${newReview.comment}`;
+      reviewsContainer.appendChild(reviewDiv);
+
+      reviewInput.value = "";
     });
-  }
 
-  function closeListingDetail() {
-    document.getElementById("listingModal").style.display = "none";
-    // Clear review form text on close
-    document.getElementById("reviewText").value = "";
-  }
+    createListingCards();
+  </script>
 
-  // Review form submission alert
-  document.getElementById("reviewForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Only visitors who have been hosted here can leave a review.");
-    // Reset textarea
-    e.target.reset();
-  });
-</script>
 </body>
 </html>
