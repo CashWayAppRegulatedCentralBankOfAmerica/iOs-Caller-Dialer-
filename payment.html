@@ -3,114 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Page</title>
+  <title>Secure Booking Payment</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=AQYPaEplVBE03XkPv2Y7iaV-9P2gk9lvc1pn-RdhxNRMoM4vqYsRegYuH-QYJtdEG6_MP3v4jXQVZAyE&currency=USD"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
-<body class="bg-gray-100 p-4 text-gray-800">
-  <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md">
-    <h2 class="text-2xl font-bold mb-4">Complete Your Booking</h2>
+<body class="bg-gray-100 text-gray-800 min-h-screen">
+  <div class="max-w-2xl mx-auto p-6 bg-white mt-10 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold mb-4">Confirm Your Booking</h1>
 
-    <div id="details" class="mb-4"></div>
+    <div id="bookingDetails" class="mb-6 text-gray-700 space-y-2">
+      <!-- Injected by script -->
+    </div>
 
     <form id="bookingForm" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium">Mobile Number (Start with +254)</label>
-        <input type="tel" required pattern="\+254[0-9]{9}" class="w-full border rounded px-3 py-2" id="phone">
+        <label class="block font-medium">Mobile Number (e.g., +254712345678)</label>
+        <input required type="tel" pattern="\+254[0-9]{9}" class="w-full p-2 border rounded" id="mobile" placeholder="+254...">
       </div>
-
       <div>
-        <label class="block text-sm font-medium">Email</label>
-        <input type="email" required pattern=".*@.*" class="w-full border rounded px-3 py-2" id="email">
+        <label class="block font-medium">Email Address</label>
+        <input required type="email" class="w-full p-2 border rounded" id="email" placeholder="example@email.com">
       </div>
-
       <div>
-        <label class="block text-sm font-medium">Number of Guests</label>
-        <select id="guests" class="w-full border rounded px-3 py-2">
-          <option value="1">1</option>
-          <option value="2">2</option>
+        <label class="block font-medium">Number of Guests</label>
+        <select required id="guests" class="w-full p-2 border rounded">
+          <option value="">Select</option>
+          <option value="1">1 Guest</option>
+          <option value="2">2 Guests</option>
         </select>
       </div>
-
       <div>
-        <label class="block text-sm font-medium">Check-in Time</label>
-        <input type="time" id="checkinTime" required class="w-full border rounded px-3 py-2">
+        <label class="block font-medium">Check-in Time</label>
+        <input required type="text" id="checkinTime" class="w-full p-2 border rounded">
       </div>
 
-      <div class="text-center">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Proceed to Payment</button>
-      </div>
+      <button type="button" class="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600" onclick="showPaymentOptions()">Proceed to Payment</button>
     </form>
+  </div>
 
-    <div id="paymentSection" class="mt-6 hidden">
-      <h3 class="text-xl font-semibold mb-2">Select Payment Method</h3>
-      <div class="flex gap-4">
-        <button id="paypalBtn" class="bg-yellow-500 text-white px-4 py-2 rounded">Pay with PayPal</button>
-        <button id="mpesaBtn" class="bg-green-600 text-white px-4 py-2 rounded">Lipa na M-PESA</button>
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
+      <h2 class="text-xl font-bold mb-4">Select Payment Method</h2>
+      <button class="absolute top-2 right-2 text-gray-500 hover:text-black" onclick="closeModal('paymentModal')">&times;</button>
+      <div class="space-y-4">
+        <button onclick="showPayPal()" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">Pay with PayPal</button>
+        <button onclick="showMpesa()" class="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Pay with M-PESA</button>
       </div>
+    </div>
+  </div>
 
-      <div id="paypal-container" class="mt-4 hidden"></div>
-      <div id="mpesaInstructions" class="mt-4 text-sm hidden">
-        <p class="mb-2 font-semibold">To complete payment via M-PESA:</p>
-        <ul class="list-disc list-inside">
-          <li>Go to M-PESA on your phone</li>
-          <li>Select Lipa na M-PESA</li>
-          <li>Select Paybill</li>
-          <li>Enter Business Number: <strong>123456</strong></li>
-          <li>Enter Account Number: <strong>Your Full Name</strong></li>
-          <li>Enter Amount: <strong id="mpesaAmount">USD 0.00</strong></li>
-        </ul>
+  <!-- PayPal Modal -->
+  <div id="paypalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
+      <h2 class="text-xl font-bold mb-4">Pay with PayPal</h2>
+      <button class="absolute top-2 right-2 text-gray-500 hover:text-black" onclick="closeModal('paypalModal')">&times;</button>
+      <p class="mb-4">You will be redirected to PayPal to complete the payment to <strong>jackfayama@gmail.com</strong>.</p>
+      <a id="paypalLink" href="#" target="_blank" class="bg-blue-600 text-white py-2 w-full block text-center rounded hover:bg-blue-700">Pay Now</a>
+    </div>
+  </div>
+
+  <!-- M-PESA Modal -->
+  <div id="mpesaModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
+      <h2 class="text-xl font-bold mb-4">Pay with M-PESA</h2>
+      <button class="absolute top-2 right-2 text-gray-500 hover:text-black" onclick="closeModal('mpesaModal')">&times;</button>
+      <div class="space-y-2">
+        <p>Till Number: <strong>123456</strong></p>
+        <p>Use your mobile phone to complete the payment.</p>
+        <p><strong>Note:</strong> Use your mobile number as the booking reference.</p>
       </div>
     </div>
   </div>
 
   <script>
-    // Extract data from URL
-    const params = new URLSearchParams(window.location.search);
-    const apartment = params.get("apartment") || "Modern Studio in Kilimani";
-    const amount = params.get("amount") || 60;
-    const checkin = params.get("checkin") || "2025-05-18";
-    const checkout = params.get("checkout") || "2025-05-19";
+    const urlParams = new URLSearchParams(window.location.search);
+    const apartment = urlParams.get('apartment') || 'N/A';
+    const amount = urlParams.get('amount') || '0';
+    const checkin = urlParams.get('checkin') || 'N/A';
+    const checkout = urlParams.get('checkout') || 'N/A';
 
-    document.getElementById("details").innerHTML = `
+    document.getElementById("bookingDetails").innerHTML = `
       <p><strong>Apartment:</strong> ${apartment}</p>
-      <p><strong>Amount:</strong> USD ${amount}</p>
+      <p><strong>Amount:</strong> $${amount}</p>
       <p><strong>Check-in:</strong> ${checkin}</p>
       <p><strong>Check-out:</strong> ${checkout}</p>
     `;
 
-    document.getElementById("bookingForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      document.getElementById("paymentSection").classList.remove("hidden");
+    flatpickr("#checkinTime", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
     });
 
-    document.getElementById("paypalBtn").addEventListener("click", () => {
-      document.getElementById("paypal-container").classList.remove("hidden");
-      document.getElementById("mpesaInstructions").classList.add("hidden");
+    function showPaymentOptions() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const guests = document.getElementById("guests").value;
+      const time = document.getElementById("checkinTime").value.trim();
 
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: { value: amount },
-              description: `${apartment} | Check-in: ${checkin} - Check-out: ${checkout}`
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert("Payment successful! Thank you, " + details.payer.name.given_name);
-            window.location.href = "success.html";
-          });
-        }
-      }).render("#paypal-container");
-    });
+      if (!mobile.match(/^\+254[0-9]{9}$/)) {
+        alert("Please enter a valid Kenyan phone number starting with +254");
+        return;
+      }
+      if (!email.includes("@")) {
+        alert("Please enter a valid email address");
+        return;
+      }
+      if (!guests || !time) {
+        alert("Please fill in all fields");
+        return;
+      }
 
-    document.getElementById("mpesaBtn").addEventListener("click", () => {
-      document.getElementById("mpesaInstructions").classList.remove("hidden");
-      document.getElementById("paypal-container").classList.add("hidden");
-      document.getElementById("mpesaAmount").textContent = `USD ${amount}`;
-    });
+      document.getElementById("paymentModal").classList.remove("hidden");
+    }
+
+    function showPayPal() {
+      const link = `https://www.paypal.com/paypalme/jackfayama/${amount}`;
+      document.getElementById("paypalLink").href = link;
+      closeModal('paymentModal');
+      document.getElementById("paypalModal").classList.remove("hidden");
+    }
+
+    function showMpesa() {
+      closeModal('paymentModal');
+      document.getElementById("mpesaModal").classList.remove("hidden");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add("hidden");
+    }
   </script>
 </body>
 </html>
