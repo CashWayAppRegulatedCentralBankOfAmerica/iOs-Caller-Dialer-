@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment - Booking Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Flatpickr CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-lg mx-auto p-6 mt-10 bg-white rounded-lg shadow-lg">
+
+    <h1 class="text-2xl font-bold mb-6 text-center">Confirm Your Booking</h1>
+
+    <form id="paymentForm" class="space-y-6">
+
+      <!-- Booking Details - readonly -->
+      <div>
+        <label class="block font-semibold mb-1">Apartment Name</label>
+        <input
+          type="text"
+          id="apartment"
+          readonly
+          class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
+        />
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">Check-in Date</label>
+        <input
+          type="text"
+          id="checkin"
+          readonly
+          class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
+        />
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">Check-out Date</label>
+        <input
+          type="text"
+          id="checkout"
+          readonly
+          class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
+        />
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">Total Amount (USD)</label>
+        <input
+          type="text"
+          id="amount"
+          readonly
+          class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
+        />
+      </div>
+
+      <!-- User inputs -->
+
+      <div>
+        <label for="phone" class="block font-semibold mb-1"
+          >Phone Number <span class="text-red-500">*</span></label
+        >
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="+254712345678"
+          pattern="^\+\d{7,15}$"
+          required
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <p class="text-sm text-gray-500 mt-1">
+          Enter your phone number starting with country code (e.g., +254)
+        </p>
+      </div>
+
+      <div>
+        <label for="email" class="block font-semibold mb-1"
+          >Email Address <span class="text-red-500">*</span></label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label for="guests" class="block font-semibold mb-1"
+          >Number of Guests <span class="text-red-500">*</span></label
+        >
+        <select
+          id="guests"
+          name="guests"
+          required
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" disabled selected>Select guests</option>
+          <option value="1">1 Guest</option>
+          <option value="2">2 Guests</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="checkintime" class="block font-semibold mb-1"
+          >Check-in Time <span class="text-red-500">*</span></label
+        >
+        <input
+          type="time"
+          id="checkintime"
+          name="checkintime"
+          required
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-red-500 text-white py-3 rounded hover:bg-red-600 transition"
+      >
+        Proceed to Payment
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // On page load, get URL params and populate readonly fields
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+
+      // Fetch all expected params
+      const apartment = params.get("apartment") || "N/A";
+      const checkin = params.get("checkin") || "N/A";
+      const checkout = params.get("checkout") || "N/A";
+      const amount = params.get("amount") || "N/A";
+
+      // Set to inputs
+      document.getElementById("apartment").value = apartment;
+      document.getElementById("checkin").value = checkin;
+      document.getElementById("checkout").value = checkout;
+      document.getElementById("amount").value = amount;
+    });
+
+    // Validation helper for phone number format +countrycode...
+    function validatePhone(phone) {
+      const phonePattern = /^\+\d{7,15}$/;
+      return phonePattern.test(phone);
+    }
+
+    // Form submit handler
+    document.getElementById("paymentForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const guests = document.getElementById("guests").value;
+      const checkinTime = document.getElementById("checkintime").value;
+
+      if (!validatePhone(phone)) {
+        alert("Please enter a valid phone number starting with a '+' and country code.");
+        return;
+      }
+
+      if (!email) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (!guests || (guests !== "1" && guests !== "2")) {
+        alert("Please select either 1 or 2 guests.");
+        return;
+      }
+
+      if (!checkinTime) {
+        alert("Please select a check-in time.");
+        return;
+      }
+
+      // All validation passed - normally you would send data to server here
+      // For demo, just alert success and show collected data
+
+      alert(
+        `Booking Details:\nApartment: ${document.getElementById(
+          "apartment"
+        ).value}\nCheck-in: ${document.getElementById("checkin").value} at ${checkinTime}\nCheck-out: ${
+          document.getElementById("checkout").value
+        }\nGuests: ${guests}\nPhone: ${phone}\nEmail: ${email}\nAmount: ${document.getElementById(
+          "amount"
+        ).value}`
+      );
+
+      // You can redirect to a thank-you or payment gateway here
+    });
+  </script>
+</body>
+</html>
